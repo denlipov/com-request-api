@@ -1,7 +1,7 @@
 .PHONY: build
 build:
-	go build cmd/omp-demo-api/main.go
+	go build cmd/com-request-api/main.go
 
 .PHONY: test
 test:
-	go test -v ./...
+	go test -count=1 -v ./...

@@ -1,11 +1,13 @@
 package consumer
 
 import (
+	"context"
+	"log"
 	"sync"
 	"time"
 
-	"github.com/ozonmp/omp-demo-api/internal/app/repo"
-	"github.com/ozonmp/omp-demo-api/internal/model"
+	"com-request-api/internal/app/repo"
+	"com-request-api/internal/model"
 )
 
 type Consumer interface {
@@ -15,20 +17,20 @@ type Consumer interface {
 
 type consumer struct {
 	n      uint64
-	events chan<- model.SubdomainEvent
+	events chan<- model.RequestEvent
 
 	repo repo.EventRepo
 
 	batchSize uint64
 	timeout   time.Duration
 
-	done chan bool
-	wg   *sync.WaitGroup
+	cancel context.CancelFunc
+	wg     *sync.WaitGroup
 }
 
 type Config struct {
 	n         uint64
-	events    chan<- model.SubdomainEvent
+	events    chan<- model.RequestEvent
 	repo      repo.EventRepo
 	batchSize uint64
 	timeout   time.Duration
@@ -39,10 +41,9 @@ func NewDbConsumer(
 	batchSize uint64,
 	consumeTimeout time.Duration,
 	repo repo.EventRepo,
-	events chan<- model.SubdomainEvent) Consumer {
+	events chan<- model.RequestEvent) Consumer {
 
 	wg := &sync.WaitGroup{}
-	done := make(chan bool)
 
 	return &consumer{
 		n:         n,
@@ -51,17 +52,21 @@ func NewDbConsumer(
 		repo:      repo,
 		events:    events,
 		wg:        wg,
-		done:      done,
 	}
 }
 
 func (c *consumer) Start() {
+	ctx, cancel := context.WithCancel(context.Background())
+	c.cancel = cancel
+
 	for i := uint64(0); i < c.n; i++ {
 		c.wg.Add(1)
 
-		go func() {
+		go func(ctx context.Context) {
+
 			defer c.wg.Done()
 			ticker := time.NewTicker(c.timeout)
+
 			for {
 				select {
 				case <-ticker.C:
@@ -72,15 +77,16 @@ func (c *consumer) Start() {
 					for _, event := range events {
 						c.events <- event
 					}
-				case <-c.done:
+				case <-ctx.Done():
+					log.Println("Consumer complete")
 					return
 				}
 			}
-		}()
+		}(ctx)
 	}
 }
 
 func (c *consumer) Close() {
-	close(c.done)
+	c.cancel()
 	c.wg.Wait()
 }
