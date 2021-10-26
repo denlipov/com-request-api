@@ -1,6 +1,6 @@
-module github.com/ozonmp/omp-template-api
+module github.com/denlipov/com-request-api
 
-go 1.16
+go 1.17
 
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.1.2 // indirect
@@ -11,7 +11,6 @@ require (
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/lib/pq v1.10.3
 	github.com/opentracing/opentracing-go v1.2.0
-	github.com/ozonmp/omp-template-api/pkg/omp-template-api v0.0.0-00010101000000-000000000000
 	github.com/pressly/goose/v3 v3.1.0
 	github.com/prometheus/client_golang v1.11.0
 	github.com/rs/zerolog v1.24.0
@@ -19,6 +18,8 @@ require (
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
 	google.golang.org/grpc v1.41.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
+	github.com/gammazero/workerpool v1.1.2
+	github.com/golang/mock v1.6.0
 )
 
-replace github.com/ozonmp/omp-template-api/pkg/omp-template-api => ./pkg/omp-template-api
+replace github.com/denlipov/com-request-api/pkg/com-request-api => ./pkg/com-request-api

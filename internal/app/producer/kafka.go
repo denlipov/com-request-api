@@ -1,11 +1,14 @@
 package producer
 
 import (
+	"context"
+	"log"
 	"sync"
 	"time"
 
-	"github.com/ozonmp/omp-demo-api/internal/app/sender"
-	"github.com/ozonmp/omp-demo-api/internal/model"
+	"com-request-api/internal/app/repo"
+	"com-request-api/internal/app/sender"
+	"com-request-api/internal/model"
 
 	"github.com/gammazero/workerpool"
 )
@@ -19,62 +22,86 @@ type producer struct {
 	n       uint64
 	timeout time.Duration
 
+	repo   repo.EventRepo
 	sender sender.EventSender
-	events <-chan model.SubdomainEvent
+	events <-chan model.RequestEvent
 
 	workerPool *workerpool.WorkerPool
 
-	wg   *sync.WaitGroup
-	done chan bool
+	wg     *sync.WaitGroup
+	cancel context.CancelFunc
 }
 
-// todo for students: add repo
 func NewKafkaProducer(
 	n uint64,
+	repo repo.EventRepo,
 	sender sender.EventSender,
-	events <-chan model.SubdomainEvent,
+	events <-chan model.RequestEvent,
 	workerPool *workerpool.WorkerPool,
 ) Producer {
 
 	wg := &sync.WaitGroup{}
-	done := make(chan bool)
 
 	return &producer{
 		n:          n,
+		repo:       repo,
 		sender:     sender,
 		events:     events,
 		workerPool: workerPool,
 		wg:         wg,
-		done:       done,
 	}
 }
 
 func (p *producer) Start() {
+	ctx, cancel := context.WithCancel(context.Background())
+	p.cancel = cancel
+
 	for i := uint64(0); i < p.n; i++ {
 		p.wg.Add(1)
-		go func() {
+		go func(ctx context.Context) {
 			defer p.wg.Done()
+
+			eventsToUnlock := make([]uint64, 0)
+			eventsToRemove := make([]uint64, 0)
+
+			ticker := time.NewTicker(2 * time.Second)
+
 			for {
 				select {
+				case <-ticker.C:
+					if len(eventsToUnlock) > 0 {
+						eventBuf := eventsToUnlock
+						p.workerPool.Submit(func() {
+							p.repo.Unlock(eventBuf)
+						})
+						eventsToUnlock = nil
+					}
+
+					if len(eventsToRemove) > 0 {
+						eventBuf := eventsToRemove
+						p.workerPool.Submit(func() {
+							p.repo.Remove(eventBuf)
+						})
+						eventsToRemove = nil
+					}
+
 				case event := <-p.events:
 					if err := p.sender.Send(&event); err != nil {
-						p.workerPool.Submit(func() {
-							// ...
-						})
+						eventsToUnlock = append(eventsToUnlock, event.ID)
 					} else {
-						p.workerPool.Submit(func() {
-							// ...
-						})
+						eventsToRemove = append(eventsToRemove, event.ID)
 					}
-				case <-p.done:
+
+				case <-ctx.Done():
+					log.Println("Producer complete")
 					return
 				}
 			}
-		}()
+		}(ctx)
 	}
 }
 
 func (p *producer) Close() {
-	close(p.done)
+	p.cancel()
 	p.wg.Wait()
 }

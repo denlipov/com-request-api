@@ -1,33 +1,33 @@
 package retranslator
 
 import (
+	"com-request-api/internal/app/repo"
+	"com-request-api/internal/app/sender"
+	"math/rand"
 	"testing"
 	"time"
-
-	"github.com/golang/mock/gomock"
-	"github.com/ozonmp/omp-demo-api/internal/mocks"
 )
 
 func TestStart(t *testing.T) {
+	t.Run("Retranslator test", func(t *testing.T) {
+		rnd := func() uint64 {
+			return uint64((rand.Int63() % 9) + int64(1))
+		}
 
-	ctrl := gomock.NewController(t)
-	repo := mocks.NewMockEventRepo(ctrl)
-	sender := mocks.NewMockEventSender(ctrl)
+		cfg := Config{
+			ChannelSize:    rnd() * 100,
+			ConsumerCount:  rnd(),
+			ConsumeSize:    rnd(),
+			ConsumeTimeout: time.Duration(rnd()) * time.Second,
+			ProducerCount:  rnd(),
+			WorkerCount:    int(rnd()),
+			Repo:           repo.NewEventRepo(rnd() * 1000),
+			Sender:         sender.NewEventSender(),
+		}
 
-	repo.EXPECT().Lock(gomock.Any()).AnyTimes()
-
-	cfg := Config{
-		ChannelSize:   512,
-		ConsumerCount: 2,
-		ConsumeSize:   10,
-		ConsumeTimeout: 10 * time.Second,
-		ProducerCount: 2,
-		WorkerCount:   2,
-		Repo:          repo,
-		Sender:        sender,
-	}
-
-	retranslator := NewRetranslator(cfg)
-	retranslator.Start()
-	retranslator.Close()
+		retranslator := NewRetranslator(cfg)
+		retranslator.Start()
+		time.Sleep(time.Duration(rnd()) * time.Second)
+		retranslator.Close()
+	})
 }
