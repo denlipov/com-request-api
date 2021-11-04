@@ -1,8 +1,5 @@
-module com-request-api
+module github.com/denlipov/com-request-api
 
 go 1.16
 
-require (
-	github.com/gammazero/workerpool v1.1.2
-	github.com/golang/mock v1.6.0
-)
+require github.com/gammazero/workerpool v1.1.2

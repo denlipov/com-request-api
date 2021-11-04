@@ -1,8 +1,8 @@
 package retranslator
 
 import (
-	"com-request-api/internal/app/repo"
-	"com-request-api/internal/app/sender"
+	"github.com/denlipov/com-request-api/internal/app/repo"
+	"github.com/denlipov/com-request-api/internal/app/sender"
 	"math/rand"
 	"testing"
 	"time"

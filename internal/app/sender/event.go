@@ -1,7 +1,7 @@
 package sender
 
 import (
-	"com-request-api/internal/model"
+	"github.com/denlipov/com-request-api/internal/model"
 )
 
 type EventSender interface {
