@@ -3,11 +3,11 @@ package retranslator
 import (
 	"time"
 
-	"com-request-api/internal/app/consumer"
-	"com-request-api/internal/app/producer"
-	"com-request-api/internal/app/repo"
-	"com-request-api/internal/app/sender"
-	"com-request-api/internal/model"
+	"github.com/denlipov/com-request-api/internal/app/consumer"
+	"github.com/denlipov/com-request-api/internal/app/producer"
+	"github.com/denlipov/com-request-api/internal/app/repo"
+	"github.com/denlipov/com-request-api/internal/app/sender"
+	"github.com/denlipov/com-request-api/internal/model"
 
 	"github.com/gammazero/workerpool"
 )

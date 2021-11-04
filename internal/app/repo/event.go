@@ -1,7 +1,7 @@
 package repo
 
 import (
-	"com-request-api/internal/model"
+	"github.com/denlipov/com-request-api/internal/model"
 )
 
 type EventRepo interface {

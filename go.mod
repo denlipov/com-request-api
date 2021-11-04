@@ -4,6 +4,8 @@ go 1.17
 
 require (
 	github.com/HdrHistogram/hdrhistogram-go v1.1.2 // indirect
+	github.com/gammazero/workerpool v1.1.2
+	github.com/golang/mock v1.6.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.6.0
@@ -18,8 +20,6 @@ require (
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
 	google.golang.org/grpc v1.41.0
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
-	github.com/gammazero/workerpool v1.1.2
-	github.com/golang/mock v1.6.0
 )
 
 replace github.com/denlipov/com-request-api/pkg/com-request-api => ./pkg/com-request-api

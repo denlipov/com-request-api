@@ -6,7 +6,7 @@ import (
 	"syscall"
 	"time"
 
-	"com-request-api/internal/app/retranslator"
+	"github.com/denlipov/com-request-api/internal/app/retranslator"
 )
 
 func main() {

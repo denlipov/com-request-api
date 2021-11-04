@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"com-request-api/internal/app/repo"
-	"com-request-api/internal/model"
+	"github.com/denlipov/com-request-api/internal/app/repo"
+	"github.com/denlipov/com-request-api/internal/model"
 )
 
 type Consumer interface {
