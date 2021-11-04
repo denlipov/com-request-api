@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package denlipov.com_request_api.v1;
+
+import "validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/denlipov/com-request-api/pkg/com-request-api;com_request_api";
+
+// ComRequestApiService - Service for working with requests
+service ComRequestApiService {
+  // DescribeRequestV1 - Describe a request
+  rpc DescribeRequestV1(DescribeRequestV1Request) returns (DescribeRequestV1Response) {
+    option (google.api.http) = {
+      get: "/v1/requests/{request_id}"
+    };
+  }
+}
+
+message Request {
+  uint64 id  = 1;
+  uint64 foo = 2;
+  google.protobuf.Timestamp created = 3;
+}
+
+message DescribeRequestV1Request {
+  uint64 request_id = 1 [(validate.rules).uint64.gt = 0];
+}
+
+message DescribeRequestV1Response {
+  Request value = 1;
+}

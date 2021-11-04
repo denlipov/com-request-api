@@ -6,7 +6,7 @@ endif
 export GO111MODULE=on
 
 SERVICE_NAME=com-request-api
-SERVICE_PATH=ozonmp/com-request-api
+SERVICE_PATH=denlipov/com-request-api
 
 PGV_VERSION:="v0.6.1"
 BUF_VERSION:="v0.56.0"
@@ -50,10 +50,10 @@ generate-go: .generate-install-buf .generate-go .generate-finalize-go
     		chmod +x "$(BUF_EXE)")
 
 .generate-go:
-	$(BUF_EXE) generate
+	$(BUF_EXE) -v generate
 
 .generate-python:
-	$(BUF_EXE) generate --template buf.gen.python.yaml
+	$(BUF_EXE) -v generate --template buf.gen.python.yaml
 
 .generate-finalize-go:
 	mv pkg/$(SERVICE_NAME)/github.com/$(SERVICE_PATH)/pkg/$(SERVICE_NAME)/* pkg/$(SERVICE_NAME)
