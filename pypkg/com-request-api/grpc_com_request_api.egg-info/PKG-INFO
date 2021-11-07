@@ -1,0 +1,11 @@
+Metadata-Version: 1.2
+Name: grpc-com-request-api
+Version: 1.0.0
+Summary: GRPC python client for com-request-api
+Home-page: https://github.com/ozonmp/com-request-api
+Author: rusdevop
+Author-email: rusdevops@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=3.5
