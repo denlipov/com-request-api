@@ -26,13 +26,21 @@ service ComRequestApiService {
 
   rpc ListRequestV1(ListRequestV1Request) returns (ListRequestV1Response) {
     option (google.api.http) = {
-      get: "/v1/requests/list"
+      post: "/v1/requests/list"
+      body: "*"
     };
   }
 
   rpc RemoveRequestV1(RemoveRequestV1Request) returns (RemoveRequestV1Response) {
     option (google.api.http) = {
       delete: "/v1/requests/remove/{request_id}"
+    };
+  }
+
+  rpc UpdateRequestV1(UpdateRequestV1Request) returns (UpdateRequestV1Response) {
+    option (google.api.http) = {
+      post: "/v1/requests/update/{request_id}"
+      body: "*"
     };
   }
 }
@@ -61,6 +69,8 @@ message CreateRequestV1Response {
 }
 
 message ListRequestV1Request {
+  uint64 limit = 1 [(validate.rules).uint64.gt = 0];
+  uint64 offset = 2 [(validate.rules).uint64.gt = 0];
 }
 
 message ListRequestV1Response {
@@ -72,5 +82,20 @@ message RemoveRequestV1Request {
 }
 
 message RemoveRequestV1Response {
+  bool status = 1;
+}
+
+message UpdateRequestBody {
+  string service = 2;
+  string user = 3;
+  string text = 4;
+}
+
+message UpdateRequestV1Request {
+  uint64 request_id = 1 [(validate.rules).uint64.gt = 0];
+  UpdateRequestBody body = 2;
+}
+
+message UpdateRequestV1Response {
   bool status = 1;
 }

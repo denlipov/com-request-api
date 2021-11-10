@@ -45,6 +45,7 @@ grpc_cli call localhost:8082 DescribeRequestV1 'request_id: 101'
 grpc_cli call localhost:8082 ListRequestV1 ''
 grpc_cli call localhost:8082 CreateRequestV1 'request: { service: "dum", user: "test", text: "hooo" }'
 grpc_cli call localhost:8082 RemoveRequestV1 'request_id: 101'
+grpc_cli call localhost:8082 UpdateRequestV1 'request_id: 31, body: { text: "some new text", user: "phycus" }'
 ```
 
 ### Gateway:

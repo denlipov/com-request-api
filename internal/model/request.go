@@ -2,17 +2,11 @@ package model
 
 import "fmt"
 
-// Request - request entity.
-//type Request struct {
-//	ID  uint64 `db:"id"`
-//	Foo uint64 `db:"foo"`
-//}
-
 type Request struct {
-	ID      uint64 `json:"id,omitempty"`
-	Service string `json:"service,omitempty"`
-	User    string `json:"user,omitempty"`
-	Text    string `json:"desc,omitempty"`
+	ID      uint64 `json:"id,omitempty" db:"id"`
+	Service string `json:"service,omitempty" db:"service"`
+	User    string `json:"user,omitempty" db:"user"`
+	Text    string `json:"desc,omitempty" db:"text"`
 }
 
 type RequestEvent struct {

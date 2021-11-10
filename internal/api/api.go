@@ -103,7 +103,7 @@ func (o *requestAPI) ListRequestV1(
 	ctx context.Context,
 	req *pb.ListRequestV1Request) (*pb.ListRequestV1Response, error) {
 
-	respArrayInternal, err := o.repo.ListRequest(ctx)
+	respArrayInternal, err := o.repo.ListRequest(ctx, req.Limit, req.Offset)
 	if err != nil {
 		log.Error().Err(err).Msg("ListRequestV1 -- failed")
 		return nil, status.Error(codes.Internal, err.Error())
@@ -152,6 +152,43 @@ func (o *requestAPI) RemoveRequestV1(
 	log.Debug().Msg("RemoveRequestV1 -- success")
 
 	return &pb.RemoveRequestV1Response{
+		Status: true,
+	}, nil
+}
+
+func (o *requestAPI) UpdateRequestV1(
+	ctx context.Context,
+	req *pb.UpdateRequestV1Request) (*pb.UpdateRequestV1Response, error) {
+
+	if err := req.Validate(); err != nil {
+		log.Error().Err(err).Msg("UpdateRequestV1 - invalid argument")
+
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	mreq := model.Request{
+		ID:      req.RequestId,
+		Service: req.Body.Service,
+		User:    req.Body.User,
+		Text:    req.Body.Text,
+	}
+	ok, err := o.repo.UpdateRequest(ctx, mreq)
+	if err != nil {
+		log.Error().Err(err).Msg("UpdateRequestV1 -- failed")
+
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	if !ok {
+		log.Debug().Uint64("requestId", mreq.ID).Msg("request not found")
+		totalRequestNotFound.Inc()
+
+		return nil, status.Error(codes.NotFound, "request not found")
+	}
+
+	log.Debug().Msg("UpdateRequestV1 -- success")
+
+	return &pb.UpdateRequestV1Response{
 		Status: true,
 	}, nil
 }
