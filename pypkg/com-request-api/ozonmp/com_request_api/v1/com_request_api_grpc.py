@@ -11,7 +11,6 @@ if typing.TYPE_CHECKING:
 
 import validate.validate_pb2
 import google.api.annotations_pb2
-import google.protobuf.timestamp_pb2
 import ozonmp.com_request_api.v1.com_request_api_pb2
 
 
