@@ -2,13 +2,14 @@ package repo
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/denlipov/com-request-api/internal/model"
+	pb "github.com/denlipov/com-request-api/pkg/com-request-api"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func (r *repo) CreateRequest(ctx context.Context, req model.Request) (requestID uint64, err error) {
@@ -36,24 +37,23 @@ func (r *repo) CreateRequest(ctx context.Context, req model.Request) (requestID 
 				time.Now()).
 			Suffix("RETURNING id")
 
-		var reqID uint64
-		err := query.QueryRowContext(ctx).Scan(&reqID)
+		err := query.QueryRowContext(ctx).Scan(&req.ID)
+		if err != nil {
+			return 0, err
+		}
+
+		pbReq := &pb.Request{
+			Id:      req.ID,
+			Service: req.Service,
+			User:    req.User,
+			Text:    req.Text,
+		}
+		payload, err := protojson.Marshal(pbReq)
 		if err != nil {
 			return 0, err
 		}
 
 		// RequestEvent
-		payload := fmt.Sprintf(
-			`{
-				"request": {
-					"id": %d,
-					"service": "%s",
-					"user": "%s",
-					"text": "%s"
-				}
-			}`,
-			reqID, req.Service, req.User, req.Text)
-
 		query = psql.
 			Insert("requests_events").
 			Columns(
@@ -63,7 +63,7 @@ func (r *repo) CreateRequest(ctx context.Context, req model.Request) (requestID 
 				"payload",
 				"updated").
 			Values(
-				reqID,
+				req.ID,
 				"Created",
 				false,
 				payload,
@@ -74,7 +74,7 @@ func (r *repo) CreateRequest(ctx context.Context, req model.Request) (requestID 
 			return 0, err
 		}
 
-		return reqID, nil
+		return req.ID, nil
 	}
 
 	tx, err := r.db.BeginTxx(ctx, nil)

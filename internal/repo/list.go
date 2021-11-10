@@ -18,6 +18,7 @@ func (r *repo) ListRequest(ctx context.Context, limit, offset uint64) ([]model.R
 			sq.Gt{"id": offset},
 			sq.Eq{"removed": false},
 		}).
+		OrderBy("id").
 		Limit(limit).
 		ToSql()
 

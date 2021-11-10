@@ -2,13 +2,14 @@ package repo
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/denlipov/com-request-api/internal/model"
+	pb "github.com/denlipov/com-request-api/pkg/com-request-api"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func (r *repo) UpdateRequest(ctx context.Context, req model.Request) (bool, error) {
@@ -17,23 +18,17 @@ func (r *repo) UpdateRequest(ctx context.Context, req model.Request) (bool, erro
 
 		psql := sq.StatementBuilder.PlaceholderFormat(sq.Dollar).RunWith(tx)
 
-		payload := fmt.Sprintf(`{ "request": {"id": %d`, req.ID)
 		// Request
 		queryUpdate := psql.Update("requests")
 		if req.Service != "" {
 			queryUpdate = queryUpdate.Set("service", req.Service)
-			payload += fmt.Sprintf(`, "service": "%s"`, req.Service)
 		}
 		if req.User != "" {
 			queryUpdate = queryUpdate.Set("\"user\"", req.User)
-			payload += fmt.Sprintf(`, "user": "%s"`, req.User)
 		}
 		if req.Text != "" {
 			queryUpdate = queryUpdate.Set("text", req.Text)
-			payload += fmt.Sprintf(`, "text": "%s"`, req.Text)
 		}
-
-		payload += "} }"
 
 		queryUpdate = queryUpdate.Set("updated", time.Now()).
 			Where(sq.And{
@@ -54,6 +49,17 @@ func (r *repo) UpdateRequest(ctx context.Context, req model.Request) (bool, erro
 		}
 
 		// Event
+		pbReq := &pb.Request{
+			Id:      req.ID,
+			Service: req.Service,
+			User:    req.User,
+			Text:    req.Text,
+		}
+		payload, err := protojson.Marshal(pbReq)
+		if err != nil {
+			return err
+		}
+
 		queryInsert := psql.
 			Insert("requests_events").
 			Columns(

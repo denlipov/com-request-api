@@ -2,12 +2,13 @@ package repo
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	sq "github.com/Masterminds/squirrel"
+	pb "github.com/denlipov/com-request-api/pkg/com-request-api"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func (r *repo) RemoveRequest(ctx context.Context, requestID uint64) (bool, error) {
@@ -38,8 +39,15 @@ func (r *repo) RemoveRequest(ctx context.Context, requestID uint64) (bool, error
 			return errors.New("No requests found to update or it was already removed")
 		}
 
+		pbReq := &pb.Request{
+			Id: requestID,
+		}
+		payload, err := protojson.Marshal(pbReq)
+		if err != nil {
+			return err
+		}
+
 		// Event
-		payload := fmt.Sprintf(`{ "request": {"id": %d} }`, requestID)
 		queryInsert := psql.
 			Insert("requests_events").
 			Columns(
