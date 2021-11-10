@@ -4,7 +4,6 @@ package ozonmp.com_request_api.v1;
 
 import "validate/validate.proto";
 import "google/api/annotations.proto";
-import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/denlipov/com-request-api/pkg/com-request-api;com_request_api";
 

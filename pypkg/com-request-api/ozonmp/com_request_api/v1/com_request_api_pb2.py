@@ -13,7 +13,6 @@ _sym_db = _symbol_database.Default()
 
 from validate import validate_pb2 as validate_dot_validate__pb2
 from google.api import annotations_pb2 as google_dot_api_dot_annotations__pb2
-from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -22,9 +21,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'ZGgithub.com/denlipov/com-request-api/pkg/com-request-api;com_request_api',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n/ozonmp/com_request_api/v1/com_request_api.proto\x12\x19ozonmp.com_request_api.v1\x1a\x17validate/validate.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"v\n\x07Request\x12\x0e\n\x02id\x18\x01 \x01(\x04R\x02id\x12!\n\x07service\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x07service\x12\x1b\n\x04user\x18\x03 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x04user\x12\x1b\n\x04text\x18\x04 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x04text\"B\n\x18\x44\x65scribeRequestV1Request\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"U\n\x19\x44\x65scribeRequestV1Response\x12\x38\n\x05value\x18\x01 \x01(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x05value\"V\n\x16\x43reateRequestV1Request\x12<\n\x07request\x18\x01 \x01(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x07request\"A\n\x17\x43reateRequestV1Response\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"\x16\n\x14ListRequestV1Request\"U\n\x15ListRequestV1Response\x12<\n\x07request\x18\x01 \x03(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x07request\"@\n\x16RemoveRequestV1Request\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"1\n\x17RemoveRequestV1Response\x12\x16\n\x06status\x18\x01 \x01(\x08R\x06status2\x8a\x05\n\x14\x43omRequestApiService\x12\xa1\x01\n\x11\x44\x65scribeRequestV1\x12\x33.ozonmp.com_request_api.v1.DescribeRequestV1Request\x1a\x34.ozonmp.com_request_api.v1.DescribeRequestV1Response\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/v1/requests/{request_id}\x12\x98\x01\n\x0f\x43reateRequestV1\x12\x31.ozonmp.com_request_api.v1.CreateRequestV1Request\x1a\x32.ozonmp.com_request_api.v1.CreateRequestV1Response\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/v1/requests/create:\x01*\x12\x8d\x01\n\rListRequestV1\x12/.ozonmp.com_request_api.v1.ListRequestV1Request\x1a\x30.ozonmp.com_request_api.v1.ListRequestV1Response\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/v1/requests/list\x12\xa2\x01\n\x0fRemoveRequestV1\x12\x31.ozonmp.com_request_api.v1.RemoveRequestV1Request\x1a\x32.ozonmp.com_request_api.v1.RemoveRequestV1Response\"(\x82\xd3\xe4\x93\x02\"* /v1/requests/remove/{request_id}BIZGgithub.com/denlipov/com-request-api/pkg/com-request-api;com_request_apib\x06proto3'
+  serialized_pb=b'\n/ozonmp/com_request_api/v1/com_request_api.proto\x12\x19ozonmp.com_request_api.v1\x1a\x17validate/validate.proto\x1a\x1cgoogle/api/annotations.proto\"v\n\x07Request\x12\x0e\n\x02id\x18\x01 \x01(\x04R\x02id\x12!\n\x07service\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x07service\x12\x1b\n\x04user\x18\x03 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x04user\x12\x1b\n\x04text\x18\x04 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x04text\"B\n\x18\x44\x65scribeRequestV1Request\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"U\n\x19\x44\x65scribeRequestV1Response\x12\x38\n\x05value\x18\x01 \x01(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x05value\"V\n\x16\x43reateRequestV1Request\x12<\n\x07request\x18\x01 \x01(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x07request\"A\n\x17\x43reateRequestV1Response\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"\x16\n\x14ListRequestV1Request\"U\n\x15ListRequestV1Response\x12<\n\x07request\x18\x01 \x03(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x07request\"@\n\x16RemoveRequestV1Request\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"1\n\x17RemoveRequestV1Response\x12\x16\n\x06status\x18\x01 \x01(\x08R\x06status2\x8a\x05\n\x14\x43omRequestApiService\x12\xa1\x01\n\x11\x44\x65scribeRequestV1\x12\x33.ozonmp.com_request_api.v1.DescribeRequestV1Request\x1a\x34.ozonmp.com_request_api.v1.DescribeRequestV1Response\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/v1/requests/{request_id}\x12\x98\x01\n\x0f\x43reateRequestV1\x12\x31.ozonmp.com_request_api.v1.CreateRequestV1Request\x1a\x32.ozonmp.com_request_api.v1.CreateRequestV1Response\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/v1/requests/create:\x01*\x12\x8d\x01\n\rListRequestV1\x12/.ozonmp.com_request_api.v1.ListRequestV1Request\x1a\x30.ozonmp.com_request_api.v1.ListRequestV1Response\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/v1/requests/list\x12\xa2\x01\n\x0fRemoveRequestV1\x12\x31.ozonmp.com_request_api.v1.RemoveRequestV1Request\x1a\x32.ozonmp.com_request_api.v1.RemoveRequestV1Response\"(\x82\xd3\xe4\x93\x02\"* /v1/requests/remove/{request_id}BIZGgithub.com/denlipov/com-request-api/pkg/com-request-api;com_request_apib\x06proto3'
   ,
-  dependencies=[validate_dot_validate__pb2.DESCRIPTOR,google_dot_api_dot_annotations__pb2.DESCRIPTOR,google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
+  dependencies=[validate_dot_validate__pb2.DESCRIPTOR,google_dot_api_dot_annotations__pb2.DESCRIPTOR,])
 
 
 
@@ -77,8 +76,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=166,
-  serialized_end=284,
+  serialized_start=133,
+  serialized_end=251,
 )
 
 
@@ -109,8 +108,8 @@ _DESCRIBEREQUESTV1REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=286,
-  serialized_end=352,
+  serialized_start=253,
+  serialized_end=319,
 )
 
 
@@ -141,8 +140,8 @@ _DESCRIBEREQUESTV1RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=354,
-  serialized_end=439,
+  serialized_start=321,
+  serialized_end=406,
 )
 
 
@@ -173,8 +172,8 @@ _CREATEREQUESTV1REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=441,
-  serialized_end=527,
+  serialized_start=408,
+  serialized_end=494,
 )
 
 
@@ -205,8 +204,8 @@ _CREATEREQUESTV1RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=529,
-  serialized_end=594,
+  serialized_start=496,
+  serialized_end=561,
 )
 
 
@@ -230,8 +229,8 @@ _LISTREQUESTV1REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=596,
-  serialized_end=618,
+  serialized_start=563,
+  serialized_end=585,
 )
 
 
@@ -262,8 +261,8 @@ _LISTREQUESTV1RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=620,
-  serialized_end=705,
+  serialized_start=587,
+  serialized_end=672,
 )
 
 
@@ -294,8 +293,8 @@ _REMOVEREQUESTV1REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=707,
-  serialized_end=771,
+  serialized_start=674,
+  serialized_end=738,
 )
 
 
@@ -326,8 +325,8 @@ _REMOVEREQUESTV1RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=773,
-  serialized_end=822,
+  serialized_start=740,
+  serialized_end=789,
 )
 
 _DESCRIBEREQUESTV1RESPONSE.fields_by_name['value'].message_type = _REQUEST
@@ -423,8 +422,8 @@ _COMREQUESTAPISERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=825,
-  serialized_end=1475,
+  serialized_start=792,
+  serialized_end=1442,
   methods=[
   _descriptor.MethodDescriptor(
     name='DescribeRequestV1',
