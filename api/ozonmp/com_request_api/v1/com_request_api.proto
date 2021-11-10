@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package denlipov.com_request_api.v1;
+package ozonmp.com_request_api.v1;
 
 import "validate/validate.proto";
 import "google/api/annotations.proto";

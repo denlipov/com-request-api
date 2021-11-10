@@ -143,7 +143,7 @@ func (o *requestAPI) RemoveRequestV1(
 	}
 
 	if !ok {
-		log.Debug().Uint64("requestId", req.RequestId).Msg("request not found")
+		log.Error().Uint64("requestId", req.RequestId).Msg("request not found")
 		totalRequestNotFound.Inc()
 
 		return nil, status.Error(codes.NotFound, "request not found")

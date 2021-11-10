@@ -35,7 +35,7 @@ func NewComRequestApiServiceClient(cc grpc.ClientConnInterface) ComRequestApiSer
 
 func (c *comRequestApiServiceClient) DescribeRequestV1(ctx context.Context, in *DescribeRequestV1Request, opts ...grpc.CallOption) (*DescribeRequestV1Response, error) {
 	out := new(DescribeRequestV1Response)
-	err := c.cc.Invoke(ctx, "/denlipov.com_request_api.v1.ComRequestApiService/DescribeRequestV1", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ozonmp.com_request_api.v1.ComRequestApiService/DescribeRequestV1", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (c *comRequestApiServiceClient) DescribeRequestV1(ctx context.Context, in *
 
 func (c *comRequestApiServiceClient) CreateRequestV1(ctx context.Context, in *CreateRequestV1Request, opts ...grpc.CallOption) (*CreateRequestV1Response, error) {
 	out := new(CreateRequestV1Response)
-	err := c.cc.Invoke(ctx, "/denlipov.com_request_api.v1.ComRequestApiService/CreateRequestV1", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ozonmp.com_request_api.v1.ComRequestApiService/CreateRequestV1", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (c *comRequestApiServiceClient) CreateRequestV1(ctx context.Context, in *Cr
 
 func (c *comRequestApiServiceClient) ListRequestV1(ctx context.Context, in *ListRequestV1Request, opts ...grpc.CallOption) (*ListRequestV1Response, error) {
 	out := new(ListRequestV1Response)
-	err := c.cc.Invoke(ctx, "/denlipov.com_request_api.v1.ComRequestApiService/ListRequestV1", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ozonmp.com_request_api.v1.ComRequestApiService/ListRequestV1", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func (c *comRequestApiServiceClient) ListRequestV1(ctx context.Context, in *List
 
 func (c *comRequestApiServiceClient) RemoveRequestV1(ctx context.Context, in *RemoveRequestV1Request, opts ...grpc.CallOption) (*RemoveRequestV1Response, error) {
 	out := new(RemoveRequestV1Response)
-	err := c.cc.Invoke(ctx, "/denlipov.com_request_api.v1.ComRequestApiService/RemoveRequestV1", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ozonmp.com_request_api.v1.ComRequestApiService/RemoveRequestV1", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +120,7 @@ func _ComRequestApiService_DescribeRequestV1_Handler(srv interface{}, ctx contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/denlipov.com_request_api.v1.ComRequestApiService/DescribeRequestV1",
+		FullMethod: "/ozonmp.com_request_api.v1.ComRequestApiService/DescribeRequestV1",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ComRequestApiServiceServer).DescribeRequestV1(ctx, req.(*DescribeRequestV1Request))
@@ -138,7 +138,7 @@ func _ComRequestApiService_CreateRequestV1_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/denlipov.com_request_api.v1.ComRequestApiService/CreateRequestV1",
+		FullMethod: "/ozonmp.com_request_api.v1.ComRequestApiService/CreateRequestV1",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ComRequestApiServiceServer).CreateRequestV1(ctx, req.(*CreateRequestV1Request))
@@ -156,7 +156,7 @@ func _ComRequestApiService_ListRequestV1_Handler(srv interface{}, ctx context.Co
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/denlipov.com_request_api.v1.ComRequestApiService/ListRequestV1",
+		FullMethod: "/ozonmp.com_request_api.v1.ComRequestApiService/ListRequestV1",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ComRequestApiServiceServer).ListRequestV1(ctx, req.(*ListRequestV1Request))
@@ -174,7 +174,7 @@ func _ComRequestApiService_RemoveRequestV1_Handler(srv interface{}, ctx context.
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/denlipov.com_request_api.v1.ComRequestApiService/RemoveRequestV1",
+		FullMethod: "/ozonmp.com_request_api.v1.ComRequestApiService/RemoveRequestV1",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ComRequestApiServiceServer).RemoveRequestV1(ctx, req.(*RemoveRequestV1Request))
@@ -186,7 +186,7 @@ func _ComRequestApiService_RemoveRequestV1_Handler(srv interface{}, ctx context.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ComRequestApiService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "denlipov.com_request_api.v1.ComRequestApiService",
+	ServiceName: "ozonmp.com_request_api.v1.ComRequestApiService",
 	HandlerType: (*ComRequestApiServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

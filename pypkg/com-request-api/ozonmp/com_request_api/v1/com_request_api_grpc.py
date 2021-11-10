@@ -35,25 +35,25 @@ class ComRequestApiServiceBase(abc.ABC):
 
     def __mapping__(self) -> typing.Dict[str, grpclib.const.Handler]:
         return {
-            '/denlipov.com_request_api.v1.ComRequestApiService/DescribeRequestV1': grpclib.const.Handler(
+            '/ozonmp.com_request_api.v1.ComRequestApiService/DescribeRequestV1': grpclib.const.Handler(
                 self.DescribeRequestV1,
                 grpclib.const.Cardinality.UNARY_UNARY,
                 ozonmp.com_request_api.v1.com_request_api_pb2.DescribeRequestV1Request,
                 ozonmp.com_request_api.v1.com_request_api_pb2.DescribeRequestV1Response,
             ),
-            '/denlipov.com_request_api.v1.ComRequestApiService/CreateRequestV1': grpclib.const.Handler(
+            '/ozonmp.com_request_api.v1.ComRequestApiService/CreateRequestV1': grpclib.const.Handler(
                 self.CreateRequestV1,
                 grpclib.const.Cardinality.UNARY_UNARY,
                 ozonmp.com_request_api.v1.com_request_api_pb2.CreateRequestV1Request,
                 ozonmp.com_request_api.v1.com_request_api_pb2.CreateRequestV1Response,
             ),
-            '/denlipov.com_request_api.v1.ComRequestApiService/ListRequestV1': grpclib.const.Handler(
+            '/ozonmp.com_request_api.v1.ComRequestApiService/ListRequestV1': grpclib.const.Handler(
                 self.ListRequestV1,
                 grpclib.const.Cardinality.UNARY_UNARY,
                 ozonmp.com_request_api.v1.com_request_api_pb2.ListRequestV1Request,
                 ozonmp.com_request_api.v1.com_request_api_pb2.ListRequestV1Response,
             ),
-            '/denlipov.com_request_api.v1.ComRequestApiService/RemoveRequestV1': grpclib.const.Handler(
+            '/ozonmp.com_request_api.v1.ComRequestApiService/RemoveRequestV1': grpclib.const.Handler(
                 self.RemoveRequestV1,
                 grpclib.const.Cardinality.UNARY_UNARY,
                 ozonmp.com_request_api.v1.com_request_api_pb2.RemoveRequestV1Request,
@@ -67,25 +67,25 @@ class ComRequestApiServiceStub:
     def __init__(self, channel: grpclib.client.Channel) -> None:
         self.DescribeRequestV1 = grpclib.client.UnaryUnaryMethod(
             channel,
-            '/denlipov.com_request_api.v1.ComRequestApiService/DescribeRequestV1',
+            '/ozonmp.com_request_api.v1.ComRequestApiService/DescribeRequestV1',
             ozonmp.com_request_api.v1.com_request_api_pb2.DescribeRequestV1Request,
             ozonmp.com_request_api.v1.com_request_api_pb2.DescribeRequestV1Response,
         )
         self.CreateRequestV1 = grpclib.client.UnaryUnaryMethod(
             channel,
-            '/denlipov.com_request_api.v1.ComRequestApiService/CreateRequestV1',
+            '/ozonmp.com_request_api.v1.ComRequestApiService/CreateRequestV1',
             ozonmp.com_request_api.v1.com_request_api_pb2.CreateRequestV1Request,
             ozonmp.com_request_api.v1.com_request_api_pb2.CreateRequestV1Response,
         )
         self.ListRequestV1 = grpclib.client.UnaryUnaryMethod(
             channel,
-            '/denlipov.com_request_api.v1.ComRequestApiService/ListRequestV1',
+            '/ozonmp.com_request_api.v1.ComRequestApiService/ListRequestV1',
             ozonmp.com_request_api.v1.com_request_api_pb2.ListRequestV1Request,
             ozonmp.com_request_api.v1.com_request_api_pb2.ListRequestV1Response,
         )
         self.RemoveRequestV1 = grpclib.client.UnaryUnaryMethod(
             channel,
-            '/denlipov.com_request_api.v1.ComRequestApiService/RemoveRequestV1',
+            '/ozonmp.com_request_api.v1.ComRequestApiService/RemoveRequestV1',
             ozonmp.com_request_api.v1.com_request_api_pb2.RemoveRequestV1Request,
             ozonmp.com_request_api.v1.com_request_api_pb2.RemoveRequestV1Response,
         )

@@ -199,7 +199,7 @@ func RegisterComRequestApiServiceHandlerServer(ctx context.Context, mux *runtime
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/denlipov.com_request_api.v1.ComRequestApiService/DescribeRequestV1", runtime.WithHTTPPathPattern("/v1/requests/{request_id}"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.com_request_api.v1.ComRequestApiService/DescribeRequestV1", runtime.WithHTTPPathPattern("/v1/requests/{request_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -222,7 +222,7 @@ func RegisterComRequestApiServiceHandlerServer(ctx context.Context, mux *runtime
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/denlipov.com_request_api.v1.ComRequestApiService/CreateRequestV1", runtime.WithHTTPPathPattern("/v1/requests/create"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.com_request_api.v1.ComRequestApiService/CreateRequestV1", runtime.WithHTTPPathPattern("/v1/requests/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -245,7 +245,7 @@ func RegisterComRequestApiServiceHandlerServer(ctx context.Context, mux *runtime
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/denlipov.com_request_api.v1.ComRequestApiService/ListRequestV1", runtime.WithHTTPPathPattern("/v1/requests/list"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.com_request_api.v1.ComRequestApiService/ListRequestV1", runtime.WithHTTPPathPattern("/v1/requests/list"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -268,7 +268,7 @@ func RegisterComRequestApiServiceHandlerServer(ctx context.Context, mux *runtime
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/denlipov.com_request_api.v1.ComRequestApiService/RemoveRequestV1", runtime.WithHTTPPathPattern("/v1/requests/remove/{request_id}"))
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/ozonmp.com_request_api.v1.ComRequestApiService/RemoveRequestV1", runtime.WithHTTPPathPattern("/v1/requests/remove/{request_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -330,7 +330,7 @@ func RegisterComRequestApiServiceHandlerClient(ctx context.Context, mux *runtime
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/denlipov.com_request_api.v1.ComRequestApiService/DescribeRequestV1", runtime.WithHTTPPathPattern("/v1/requests/{request_id}"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.com_request_api.v1.ComRequestApiService/DescribeRequestV1", runtime.WithHTTPPathPattern("/v1/requests/{request_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -350,7 +350,7 @@ func RegisterComRequestApiServiceHandlerClient(ctx context.Context, mux *runtime
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/denlipov.com_request_api.v1.ComRequestApiService/CreateRequestV1", runtime.WithHTTPPathPattern("/v1/requests/create"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.com_request_api.v1.ComRequestApiService/CreateRequestV1", runtime.WithHTTPPathPattern("/v1/requests/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -370,7 +370,7 @@ func RegisterComRequestApiServiceHandlerClient(ctx context.Context, mux *runtime
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/denlipov.com_request_api.v1.ComRequestApiService/ListRequestV1", runtime.WithHTTPPathPattern("/v1/requests/list"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.com_request_api.v1.ComRequestApiService/ListRequestV1", runtime.WithHTTPPathPattern("/v1/requests/list"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -390,7 +390,7 @@ func RegisterComRequestApiServiceHandlerClient(ctx context.Context, mux *runtime
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/denlipov.com_request_api.v1.ComRequestApiService/RemoveRequestV1", runtime.WithHTTPPathPattern("/v1/requests/remove/{request_id}"))
+		rctx, err := runtime.AnnotateContext(ctx, mux, req, "/ozonmp.com_request_api.v1.ComRequestApiService/RemoveRequestV1", runtime.WithHTTPPathPattern("/v1/requests/remove/{request_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
