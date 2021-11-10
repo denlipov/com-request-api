@@ -23,6 +23,7 @@ type ComRequestApiServiceClient interface {
 	CreateRequestV1(ctx context.Context, in *CreateRequestV1Request, opts ...grpc.CallOption) (*CreateRequestV1Response, error)
 	ListRequestV1(ctx context.Context, in *ListRequestV1Request, opts ...grpc.CallOption) (*ListRequestV1Response, error)
 	RemoveRequestV1(ctx context.Context, in *RemoveRequestV1Request, opts ...grpc.CallOption) (*RemoveRequestV1Response, error)
+	UpdateRequestV1(ctx context.Context, in *UpdateRequestV1Request, opts ...grpc.CallOption) (*UpdateRequestV1Response, error)
 }
 
 type comRequestApiServiceClient struct {
@@ -69,6 +70,15 @@ func (c *comRequestApiServiceClient) RemoveRequestV1(ctx context.Context, in *Re
 	return out, nil
 }
 
+func (c *comRequestApiServiceClient) UpdateRequestV1(ctx context.Context, in *UpdateRequestV1Request, opts ...grpc.CallOption) (*UpdateRequestV1Response, error) {
+	out := new(UpdateRequestV1Response)
+	err := c.cc.Invoke(ctx, "/denlipov.com_request_api.v1.ComRequestApiService/UpdateRequestV1", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ComRequestApiServiceServer is the server API for ComRequestApiService service.
 // All implementations must embed UnimplementedComRequestApiServiceServer
 // for forward compatibility
@@ -78,6 +88,7 @@ type ComRequestApiServiceServer interface {
 	CreateRequestV1(context.Context, *CreateRequestV1Request) (*CreateRequestV1Response, error)
 	ListRequestV1(context.Context, *ListRequestV1Request) (*ListRequestV1Response, error)
 	RemoveRequestV1(context.Context, *RemoveRequestV1Request) (*RemoveRequestV1Response, error)
+	UpdateRequestV1(context.Context, *UpdateRequestV1Request) (*UpdateRequestV1Response, error)
 	mustEmbedUnimplementedComRequestApiServiceServer()
 }
 
@@ -96,6 +107,9 @@ func (UnimplementedComRequestApiServiceServer) ListRequestV1(context.Context, *L
 }
 func (UnimplementedComRequestApiServiceServer) RemoveRequestV1(context.Context, *RemoveRequestV1Request) (*RemoveRequestV1Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveRequestV1 not implemented")
+}
+func (UnimplementedComRequestApiServiceServer) UpdateRequestV1(context.Context, *UpdateRequestV1Request) (*UpdateRequestV1Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRequestV1 not implemented")
 }
 func (UnimplementedComRequestApiServiceServer) mustEmbedUnimplementedComRequestApiServiceServer() {}
 
@@ -182,6 +196,24 @@ func _ComRequestApiService_RemoveRequestV1_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ComRequestApiService_UpdateRequestV1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRequestV1Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ComRequestApiServiceServer).UpdateRequestV1(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/denlipov.com_request_api.v1.ComRequestApiService/UpdateRequestV1",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ComRequestApiServiceServer).UpdateRequestV1(ctx, req.(*UpdateRequestV1Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ComRequestApiService_ServiceDesc is the grpc.ServiceDesc for ComRequestApiService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -204,6 +236,10 @@ var ComRequestApiService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveRequestV1",
 			Handler:    _ComRequestApiService_RemoveRequestV1_Handler,
+		},
+		{
+			MethodName: "UpdateRequestV1",
+			Handler:    _ComRequestApiService_UpdateRequestV1_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
