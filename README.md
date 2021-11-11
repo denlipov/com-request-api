@@ -41,9 +41,10 @@ The Swagger UI is an open source project to visually render documentation for an
 - http://localhost:8082
 
 ```sh
-[I] ➜ grpc_cli call localhost:8082 DescribeRequestV1 "id: 1"
-connecting to localhost:8082
-Rpc failed with status code 5, error message: template not found
+grpc_cli call localhost:8082 DescribeRequestV1 'request_id: 101'
+grpc_cli call localhost:8082 ListRequestV1 ''
+grpc_cli call localhost:8082 CreateRequestV1 'request: { service: "dum", user: "test", text: "hooo" }'
+grpc_cli call localhost:8082 RemoveRequestV1 'request_id: 101'
 ```
 
 ### Gateway:
@@ -53,17 +54,42 @@ It reads protobuf service definitions and generates a reverse-proxy server which
 - http://localhost:8080
 
 ```sh
-[I] ➜ curl -s -X 'POST' \
-  'http://localhost:8080/v1/templates' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "id": "1"
-}' | jq .
+curl -s -X GET http://localhost:8080/v1/requests/100 | jq
 {
-  "code": 5,
-  "message": "template not found",
-  "details": []
+  "value": {
+    "id": "100",
+    "service": "dummyService",
+    "user": "dummyUser",
+    "text": "dummyText"
+  }
+}
+
+curl -s -X POST -d '{"request": {"service": "se", "user": "us", "text": "tx"}}' http://localhost:8080/v1/requests/create | jq
+{
+  "requestId": "1443635317331776148"
+}
+
+curl -s -X GET http://localhost:8080/v1/requests/list | jq
+{
+  "request": [
+    {
+      "id": "4751997750760398084",
+      "service": "someService1",
+      "user": "someUser1",
+      "text": "someText1"
+    },
+    {
+      "id": "7504504064263669287",
+      "service": "someService2",
+      "user": "someUser2",
+      "text": "someText2"
+    }
+  ]
+}
+
+curl -s -X DELETE http://localhost:8080/v1/requests/remove/1281233 | jq
+{
+  "status": true
 }
 ```
 

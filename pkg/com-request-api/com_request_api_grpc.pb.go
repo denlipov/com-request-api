@@ -20,6 +20,9 @@ const _ = grpc.SupportPackageIsVersion7
 type ComRequestApiServiceClient interface {
 	// DescribeRequestV1 - Describe a request
 	DescribeRequestV1(ctx context.Context, in *DescribeRequestV1Request, opts ...grpc.CallOption) (*DescribeRequestV1Response, error)
+	CreateRequestV1(ctx context.Context, in *CreateRequestV1Request, opts ...grpc.CallOption) (*CreateRequestV1Response, error)
+	ListRequestV1(ctx context.Context, in *ListRequestV1Request, opts ...grpc.CallOption) (*ListRequestV1Response, error)
+	RemoveRequestV1(ctx context.Context, in *RemoveRequestV1Request, opts ...grpc.CallOption) (*RemoveRequestV1Response, error)
 }
 
 type comRequestApiServiceClient struct {
@@ -32,7 +35,34 @@ func NewComRequestApiServiceClient(cc grpc.ClientConnInterface) ComRequestApiSer
 
 func (c *comRequestApiServiceClient) DescribeRequestV1(ctx context.Context, in *DescribeRequestV1Request, opts ...grpc.CallOption) (*DescribeRequestV1Response, error) {
 	out := new(DescribeRequestV1Response)
-	err := c.cc.Invoke(ctx, "/denlipov.com_request_api.v1.ComRequestApiService/DescribeRequestV1", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/ozonmp.com_request_api.v1.ComRequestApiService/DescribeRequestV1", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *comRequestApiServiceClient) CreateRequestV1(ctx context.Context, in *CreateRequestV1Request, opts ...grpc.CallOption) (*CreateRequestV1Response, error) {
+	out := new(CreateRequestV1Response)
+	err := c.cc.Invoke(ctx, "/ozonmp.com_request_api.v1.ComRequestApiService/CreateRequestV1", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *comRequestApiServiceClient) ListRequestV1(ctx context.Context, in *ListRequestV1Request, opts ...grpc.CallOption) (*ListRequestV1Response, error) {
+	out := new(ListRequestV1Response)
+	err := c.cc.Invoke(ctx, "/ozonmp.com_request_api.v1.ComRequestApiService/ListRequestV1", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *comRequestApiServiceClient) RemoveRequestV1(ctx context.Context, in *RemoveRequestV1Request, opts ...grpc.CallOption) (*RemoveRequestV1Response, error) {
+	out := new(RemoveRequestV1Response)
+	err := c.cc.Invoke(ctx, "/ozonmp.com_request_api.v1.ComRequestApiService/RemoveRequestV1", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -45,6 +75,9 @@ func (c *comRequestApiServiceClient) DescribeRequestV1(ctx context.Context, in *
 type ComRequestApiServiceServer interface {
 	// DescribeRequestV1 - Describe a request
 	DescribeRequestV1(context.Context, *DescribeRequestV1Request) (*DescribeRequestV1Response, error)
+	CreateRequestV1(context.Context, *CreateRequestV1Request) (*CreateRequestV1Response, error)
+	ListRequestV1(context.Context, *ListRequestV1Request) (*ListRequestV1Response, error)
+	RemoveRequestV1(context.Context, *RemoveRequestV1Request) (*RemoveRequestV1Response, error)
 	mustEmbedUnimplementedComRequestApiServiceServer()
 }
 
@@ -54,6 +87,15 @@ type UnimplementedComRequestApiServiceServer struct {
 
 func (UnimplementedComRequestApiServiceServer) DescribeRequestV1(context.Context, *DescribeRequestV1Request) (*DescribeRequestV1Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeRequestV1 not implemented")
+}
+func (UnimplementedComRequestApiServiceServer) CreateRequestV1(context.Context, *CreateRequestV1Request) (*CreateRequestV1Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRequestV1 not implemented")
+}
+func (UnimplementedComRequestApiServiceServer) ListRequestV1(context.Context, *ListRequestV1Request) (*ListRequestV1Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRequestV1 not implemented")
+}
+func (UnimplementedComRequestApiServiceServer) RemoveRequestV1(context.Context, *RemoveRequestV1Request) (*RemoveRequestV1Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveRequestV1 not implemented")
 }
 func (UnimplementedComRequestApiServiceServer) mustEmbedUnimplementedComRequestApiServiceServer() {}
 
@@ -78,10 +120,64 @@ func _ComRequestApiService_DescribeRequestV1_Handler(srv interface{}, ctx contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/denlipov.com_request_api.v1.ComRequestApiService/DescribeRequestV1",
+		FullMethod: "/ozonmp.com_request_api.v1.ComRequestApiService/DescribeRequestV1",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ComRequestApiServiceServer).DescribeRequestV1(ctx, req.(*DescribeRequestV1Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ComRequestApiService_CreateRequestV1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRequestV1Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ComRequestApiServiceServer).CreateRequestV1(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ozonmp.com_request_api.v1.ComRequestApiService/CreateRequestV1",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ComRequestApiServiceServer).CreateRequestV1(ctx, req.(*CreateRequestV1Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ComRequestApiService_ListRequestV1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListRequestV1Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ComRequestApiServiceServer).ListRequestV1(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ozonmp.com_request_api.v1.ComRequestApiService/ListRequestV1",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ComRequestApiServiceServer).ListRequestV1(ctx, req.(*ListRequestV1Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ComRequestApiService_RemoveRequestV1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveRequestV1Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ComRequestApiServiceServer).RemoveRequestV1(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ozonmp.com_request_api.v1.ComRequestApiService/RemoveRequestV1",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ComRequestApiServiceServer).RemoveRequestV1(ctx, req.(*RemoveRequestV1Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -90,12 +186,24 @@ func _ComRequestApiService_DescribeRequestV1_Handler(srv interface{}, ctx contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ComRequestApiService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "denlipov.com_request_api.v1.ComRequestApiService",
+	ServiceName: "ozonmp.com_request_api.v1.ComRequestApiService",
 	HandlerType: (*ComRequestApiServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "DescribeRequestV1",
 			Handler:    _ComRequestApiService_DescribeRequestV1_Handler,
+		},
+		{
+			MethodName: "CreateRequestV1",
+			Handler:    _ComRequestApiService_CreateRequestV1_Handler,
+		},
+		{
+			MethodName: "ListRequestV1",
+			Handler:    _ComRequestApiService_ListRequestV1_Handler,
+		},
+		{
+			MethodName: "RemoveRequestV1",
+			Handler:    _ComRequestApiService_RemoveRequestV1_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

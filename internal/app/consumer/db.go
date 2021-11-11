@@ -10,6 +10,7 @@ import (
 	"github.com/denlipov/com-request-api/internal/model"
 )
 
+// Consumer ...
 type Consumer interface {
 	Start()
 	Close()
@@ -28,6 +29,7 @@ type consumer struct {
 	wg     *sync.WaitGroup
 }
 
+/*
 type Config struct {
 	n         uint64
 	events    chan<- model.RequestEvent
@@ -35,7 +37,9 @@ type Config struct {
 	batchSize uint64
 	timeout   time.Duration
 }
+*/
 
+// NewDbConsumer ...
 func NewDbConsumer(
 	n uint64,
 	batchSize uint64,

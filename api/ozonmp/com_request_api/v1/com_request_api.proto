@@ -1,10 +1,9 @@
 syntax = "proto3";
 
-package denlipov.com_request_api.v1;
+package ozonmp.com_request_api.v1;
 
 import "validate/validate.proto";
 import "google/api/annotations.proto";
-import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/denlipov/com-request-api/pkg/com-request-api;com_request_api";
 
@@ -16,12 +15,32 @@ service ComRequestApiService {
       get: "/v1/requests/{request_id}"
     };
   }
+
+  rpc CreateRequestV1(CreateRequestV1Request) returns (CreateRequestV1Response) {
+    option (google.api.http) = {
+      post: "/v1/requests/create"
+      body: "*"
+    };
+  }
+
+  rpc ListRequestV1(ListRequestV1Request) returns (ListRequestV1Response) {
+    option (google.api.http) = {
+      get: "/v1/requests/list"
+    };
+  }
+
+  rpc RemoveRequestV1(RemoveRequestV1Request) returns (RemoveRequestV1Response) {
+    option (google.api.http) = {
+      delete: "/v1/requests/remove/{request_id}"
+    };
+  }
 }
 
 message Request {
-  uint64 id  = 1;
-  uint64 foo = 2;
-  google.protobuf.Timestamp created = 3;
+  uint64 id = 1;
+  string service = 2 [(validate.rules).string.min_len = 2];
+  string user = 3 [(validate.rules).string.min_len = 2];
+  string text = 4 [(validate.rules).string.min_len = 2];
 }
 
 message DescribeRequestV1Request {
@@ -30,4 +49,27 @@ message DescribeRequestV1Request {
 
 message DescribeRequestV1Response {
   Request value = 1;
+}
+
+message CreateRequestV1Request {
+  Request request = 1;
+}
+
+message CreateRequestV1Response {
+  uint64 request_id = 1 [(validate.rules).uint64.gt = 0];
+}
+
+message ListRequestV1Request {
+}
+
+message ListRequestV1Response {
+  repeated Request request = 1;
+}
+
+message RemoveRequestV1Request {
+  uint64 request_id = 1 [(validate.rules).uint64.gt = 0];
+}
+
+message RemoveRequestV1Response {
+  bool status = 1;
 }
