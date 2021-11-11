@@ -11,11 +11,13 @@ import (
 	"github.com/denlipov/com-request-api/internal/model"
 )
 
+// MemEventRepo ...
 type MemEventRepo struct {
 	events map[uint64]*model.RequestEvent
 	lock   sync.Mutex
 }
 
+// NewEventRepo ...
 func NewEventRepo(storageCap uint64) *MemEventRepo {
 	events := make(map[uint64]*model.RequestEvent, storageCap)
 	for i := uint64(0); i < storageCap; i++ {
@@ -24,9 +26,9 @@ func NewEventRepo(storageCap uint64) *MemEventRepo {
 			Type:   model.Created,
 			Status: model.Idle,
 			Entity: &model.Request{
-				ID:   uint64(rand.Int63()),
+				ID:   uint64(rand.Int63()), // nolint:gosec
 				User: "none",
-				Text: fmt.Sprintf("req-%d", rand.Int63()),
+				Text: fmt.Sprintf("req-%d", rand.Int63()), // nolint:gosec
 			},
 		}
 	}
@@ -35,6 +37,7 @@ func NewEventRepo(storageCap uint64) *MemEventRepo {
 	}
 }
 
+// Lock ...
 func (r *MemEventRepo) Lock(ctx context.Context, n uint64) ([]model.RequestEvent, error) {
 	r.lock.Lock()
 	defer r.lock.Unlock()
@@ -58,6 +61,7 @@ func (r *MemEventRepo) Lock(ctx context.Context, n uint64) ([]model.RequestEvent
 	return result, nil
 }
 
+// Unlock ...
 func (r *MemEventRepo) Unlock(ctx context.Context, eventIDs []uint64) error {
 	r.lock.Lock()
 	defer r.lock.Unlock()
@@ -73,6 +77,7 @@ func (r *MemEventRepo) Unlock(ctx context.Context, eventIDs []uint64) error {
 	return nil
 }
 
+// Remove ...
 func (r *MemEventRepo) Remove(ctx context.Context, eventIDs []uint64) error {
 	r.lock.Lock()
 	defer r.lock.Unlock()

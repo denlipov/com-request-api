@@ -13,17 +13,20 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
-type PostgresEventRepo struct {
+// PGEventRepo ...
+type PGEventRepo struct {
 	db *sqlx.DB
 }
 
-func NewEventRepo(db *sqlx.DB) *PostgresEventRepo {
-	return &PostgresEventRepo{
+// NewEventRepo ...
+func NewEventRepo(db *sqlx.DB) *PGEventRepo {
+	return &PGEventRepo{
 		db: db,
 	}
 }
 
-func (r *PostgresEventRepo) Lock(ctx context.Context, n uint64) ([]model.RequestEvent, error) {
+// Lock ...
+func (r *PGEventRepo) Lock(ctx context.Context, n uint64) ([]model.RequestEvent, error) {
 
 	doLockTx := func(ctx context.Context, n uint64, tx *sqlx.Tx) ([]model.RequestEvent, error) {
 		psql := sq.StatementBuilder.PlaceholderFormat(sq.Dollar)
@@ -59,7 +62,7 @@ func (r *PostgresEventRepo) Lock(ctx context.Context, n uint64) ([]model.Request
 				return nil, err
 			}
 
-			err := protojson.Unmarshal(payload, &pbReq)
+			err = protojson.Unmarshal(payload, &pbReq)
 			if err != nil {
 				return nil, err
 			}
@@ -120,7 +123,8 @@ func (r *PostgresEventRepo) Lock(ctx context.Context, n uint64) ([]model.Request
 	return result, nil
 }
 
-func (r *PostgresEventRepo) Unlock(ctx context.Context, eventIDs []uint64) error {
+// Unlock ...
+func (r *PGEventRepo) Unlock(ctx context.Context, eventIDs []uint64) error {
 
 	if len(eventIDs) == 0 {
 		return nil
@@ -150,7 +154,8 @@ func (r *PostgresEventRepo) Unlock(ctx context.Context, eventIDs []uint64) error
 	return nil
 }
 
-func (r *PostgresEventRepo) Remove(ctx context.Context, eventIDs []uint64) error {
+// Remove ...
+func (r *PGEventRepo) Remove(ctx context.Context, eventIDs []uint64) error {
 
 	if len(eventIDs) == 0 {
 		return nil

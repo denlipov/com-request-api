@@ -12,11 +12,13 @@ import (
 	"github.com/gammazero/workerpool"
 )
 
+// Retranslator ...
 type Retranslator interface {
 	Start()
 	Close()
 }
 
+// Config ...
 type Config struct {
 	ChannelSize uint64
 
@@ -48,6 +50,7 @@ func fixConfig(c *Config) {
 	}
 }
 
+// NewRetranslator ...
 func NewRetranslator(cfg Config) Retranslator {
 	fixConfig(&cfg)
 	events := make(chan model.RequestEvent, cfg.ChannelSize)

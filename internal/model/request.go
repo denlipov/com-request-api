@@ -2,6 +2,7 @@ package model
 
 import "fmt"
 
+// Request ...
 type Request struct {
 	ID      uint64 `json:"id,omitempty" db:"id"`
 	Service string `json:"service,omitempty" db:"service"`
@@ -9,6 +10,7 @@ type Request struct {
 	Text    string `json:"desc,omitempty" db:"text"`
 }
 
+// RequestEvent ...
 type RequestEvent struct {
 	ID     uint64      `json:"id,omitempty"`
 	Type   EventType   `json:"type,omitempty"`
@@ -39,6 +41,7 @@ func (e RequestEvent) String() string {
 		e.ID, evTypeStr[e.Type], evStatusStr[e.Status])
 }
 
+// EventTypeStrToVal ...
 func EventTypeStrToVal(t string) EventType {
 	switch t {
 	case "Created":

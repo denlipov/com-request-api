@@ -5,6 +5,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+// NewEventRepo ...
 func NewEventRepo(db *sqlx.DB) EventRepo {
 	return postgres.NewEventRepo(db)
 }

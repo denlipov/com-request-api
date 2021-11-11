@@ -13,14 +13,15 @@ import (
 	"github.com/gammazero/workerpool"
 )
 
+// Producer ...
 type Producer interface {
 	Start()
 	Close()
 }
 
 type producer struct {
-	n       uint64
-	timeout time.Duration
+	n uint64
+	// timeout time.Duration
 
 	repo   repo.EventRepo
 	sender sender.EventSender
@@ -32,6 +33,7 @@ type producer struct {
 	cancel context.CancelFunc
 }
 
+// NewKafkaProducer ...
 func NewKafkaProducer(
 	n uint64,
 	repo repo.EventRepo,

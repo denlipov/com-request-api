@@ -12,7 +12,7 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
-func (r *repo) CreateRequest(ctx context.Context, req model.Request) (requestID uint64, err error) {
+func (r *repo) CreateRequest(ctx context.Context, req model.Request) (uint64, error) {
 
 	doInsert := func(ctx context.Context, req model.Request, tx *sqlx.Tx) (uint64, error) {
 
