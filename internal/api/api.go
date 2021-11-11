@@ -80,7 +80,7 @@ func (o *requestAPI) CreateRequestV1(
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	request_id, err := o.repo.CreateRequest(ctx,
+	requestID, err := o.repo.CreateRequest(ctx,
 		model.Request{
 			Service: req.Request.Service,
 			User:    req.Request.User,
@@ -95,7 +95,7 @@ func (o *requestAPI) CreateRequestV1(
 	log.Debug().Msg("CreateRequestV1 -- success")
 
 	return &pb.CreateRequestV1Response{
-		RequestId: request_id,
+		RequestId: requestID,
 	}, nil
 }
 

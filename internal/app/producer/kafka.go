@@ -13,14 +13,15 @@ import (
 	"github.com/gammazero/workerpool"
 )
 
+// Producer ...
 type Producer interface {
 	Start()
 	Close()
 }
 
 type producer struct {
-	n       uint64
-	timeout time.Duration
+	n uint64
+	// timeout time.Duration
 
 	repo   repo.EventRepo
 	sender sender.EventSender
@@ -32,6 +33,7 @@ type producer struct {
 	cancel context.CancelFunc
 }
 
+// NewKafkaProducer ...
 func NewKafkaProducer(
 	n uint64,
 	repo repo.EventRepo,
@@ -72,7 +74,7 @@ func (p *producer) Start() {
 					if len(eventsToUnlock) > 0 {
 						eventBuf := eventsToUnlock
 						p.workerPool.Submit(func() {
-							p.repo.Unlock(eventBuf)
+							_ = p.repo.Unlock(eventBuf)
 						})
 						eventsToUnlock = nil
 					}
@@ -80,7 +82,7 @@ func (p *producer) Start() {
 					if len(eventsToRemove) > 0 {
 						eventBuf := eventsToRemove
 						p.workerPool.Submit(func() {
-							p.repo.Remove(eventBuf)
+							_ = p.repo.Remove(eventBuf)
 						})
 						eventsToRemove = nil
 					}

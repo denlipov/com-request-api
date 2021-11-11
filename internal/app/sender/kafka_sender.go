@@ -1,22 +1,24 @@
 package sender
 
 import (
-	"github.com/denlipov/com-request-api/internal/model"
 	"errors"
 	"log"
 	"math/rand"
+
+	"github.com/denlipov/com-request-api/internal/model"
 )
 
-type KafkaEventSender struct {
+type kafkaEventSender struct {
 }
 
+// NewEventSender ...
 func NewEventSender() EventSender {
-	return &KafkaEventSender{}
+	return &kafkaEventSender{}
 }
 
-func (s *KafkaEventSender) Send(req *model.RequestEvent) error {
+func (s *kafkaEventSender) Send(req *model.RequestEvent) error {
 	ok := false
-	if rand.Int63()%2 == 0 {
+	if rand.Int63()%2 == 0 { // nolint:gosec
 		ok = true
 	}
 	log.Printf("Send %v: %s", ok, req.String())

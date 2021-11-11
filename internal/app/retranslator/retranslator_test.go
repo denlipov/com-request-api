@@ -1,17 +1,18 @@
 package retranslator
 
 import (
-	"github.com/denlipov/com-request-api/internal/app/repo"
-	"github.com/denlipov/com-request-api/internal/app/sender"
 	"math/rand"
 	"testing"
 	"time"
+
+	"github.com/denlipov/com-request-api/internal/app/repo"
+	"github.com/denlipov/com-request-api/internal/app/sender"
 )
 
 func TestStart(t *testing.T) {
 	t.Run("Retranslator test", func(t *testing.T) {
 		rnd := func() uint64 {
-			return uint64((rand.Int63() % 9) + int64(1))
+			return uint64((rand.Int63() % 9) + int64(1)) // nolint:gosec
 		}
 
 		cfg := Config{

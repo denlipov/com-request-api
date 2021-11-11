@@ -37,7 +37,7 @@ func (r *repo) DescribeRequest(ctx context.Context, requestID uint64) (*model.Re
 }
 
 func (r *repo) CreateRequest(ctx context.Context, req model.Request) (requestID uint64, err error) {
-	return uint64(rand.Int63()), nil
+	return uint64(rand.Int63()), nil // nolint:gosec
 }
 
 func (r *repo) RemoveRequest(ctx context.Context, requestID uint64) (bool, error) {
@@ -47,13 +47,13 @@ func (r *repo) RemoveRequest(ctx context.Context, requestID uint64) (bool, error
 func (r *repo) ListRequest(ctx context.Context) ([]model.Request, error) {
 	return []model.Request{
 		{
-			ID:      uint64(rand.Int63()),
+			ID:      uint64(rand.Int63()), // nolint:gosec
 			Service: "someService1",
 			User:    "someUser1",
 			Text:    "someText1",
 		},
 		{
-			ID:      uint64(rand.Int63()),
+			ID:      uint64(rand.Int63()), // nolint:gosec
 			Service: "someService2",
 			User:    "someUser2",
 			Text:    "someText2",

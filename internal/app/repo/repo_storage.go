@@ -1,18 +1,20 @@
 package repo
 
 import (
-	"github.com/denlipov/com-request-api/internal/model"
 	"fmt"
 	"log"
 	"math/rand"
 	"sync"
+
+	"github.com/denlipov/com-request-api/internal/model"
 )
 
-type MemEventRepo struct {
+type memEventRepo struct {
 	events map[uint64]*model.RequestEvent
 	lock   sync.Mutex
 }
 
+// NewEventRepo ...
 func NewEventRepo(storageCap uint64) EventRepo {
 	events := make(map[uint64]*model.RequestEvent, storageCap)
 	for i := uint64(0); i < storageCap; i++ {
@@ -21,18 +23,18 @@ func NewEventRepo(storageCap uint64) EventRepo {
 			Type:   model.Created,
 			Status: model.Idle,
 			Entity: &model.Request{
-				ID:   uint64(rand.Int63()),
+				ID:   uint64(rand.Int63()), // nolint:gosec
 				User: "none",
-				Text: fmt.Sprintf("req-%d", rand.Int63()),
+				Text: fmt.Sprintf("req-%d", rand.Int63()), // nolint:gosec
 			},
 		}
 	}
-	return &MemEventRepo{
+	return &memEventRepo{
 		events: events,
 	}
 }
 
-func (r *MemEventRepo) Lock(n uint64) ([]model.RequestEvent, error) {
+func (r *memEventRepo) Lock(n uint64) ([]model.RequestEvent, error) {
 	r.lock.Lock()
 	defer r.lock.Unlock()
 
@@ -55,7 +57,7 @@ func (r *MemEventRepo) Lock(n uint64) ([]model.RequestEvent, error) {
 	return result, nil
 }
 
-func (r *MemEventRepo) Unlock(eventIDs []uint64) error {
+func (r *memEventRepo) Unlock(eventIDs []uint64) error {
 	r.lock.Lock()
 	defer r.lock.Unlock()
 
@@ -70,11 +72,11 @@ func (r *MemEventRepo) Unlock(eventIDs []uint64) error {
 	return nil
 }
 
-func (r *MemEventRepo) Add(event []model.RequestEvent) error {
+func (r *memEventRepo) Add(event []model.RequestEvent) error {
 	return nil
 }
 
-func (r *MemEventRepo) Remove(eventIDs []uint64) error {
+func (r *memEventRepo) Remove(eventIDs []uint64) error {
 	r.lock.Lock()
 	defer r.lock.Unlock()
 
