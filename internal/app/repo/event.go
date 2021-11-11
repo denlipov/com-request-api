@@ -1,13 +1,14 @@
 package repo
 
 import (
+	"context"
+
 	"github.com/denlipov/com-request-api/internal/model"
 )
 
 type EventRepo interface {
-	Lock(n uint64) ([]model.RequestEvent, error)
-	Unlock(eventIDs []uint64) error
+	Lock(ctx context.Context, n uint64) ([]model.RequestEvent, error)
+	Unlock(ctx context.Context, eventIDs []uint64) error
 
-	Add(event []model.RequestEvent) error
-	Remove(eventIDs []uint64) error
+	Remove(ctx context.Context, eventIDs []uint64) error
 }

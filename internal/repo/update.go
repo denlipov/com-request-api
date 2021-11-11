@@ -65,13 +65,13 @@ func (r *repo) UpdateRequest(ctx context.Context, req model.Request) (bool, erro
 			Columns(
 				"request_id",
 				"type",
-				"locked",
+				"status",
 				"payload",
 				"updated").
 			Values(
 				req.ID,
-				"Updated",
-				false,
+				model.Updated,
+				model.Idle,
 				payload,
 				time.Now())
 

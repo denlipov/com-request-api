@@ -5,11 +5,13 @@ type EventType uint8
 type EventStatus uint8
 
 const (
-	Created EventType = iota
+	InvalidType EventType = iota
+	Created
 	Updated
 	Removed
 
-	Idle EventStatus = iota
+	InvalidStatus EventStatus = iota
+	Idle
 	Deferred
 	Processed
 )

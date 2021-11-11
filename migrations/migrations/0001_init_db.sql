@@ -12,8 +12,8 @@ CREATE TABLE if not exists requests (
 CREATE TABLE if not exists requests_events (
   id BIGSERIAL PRIMARY KEY,
   request_id BIGINT,
-  type VARCHAR(255) not null,
-  locked BOOLEAN,
+  type INT,
+  status INT,
   payload JSONB,
   updated TIMESTAMP,
   FOREIGN KEY (request_id) REFERENCES requests (id) ON DELETE CASCADE

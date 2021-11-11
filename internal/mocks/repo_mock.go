@@ -66,18 +66,18 @@ func (mr *MockRepoMockRecorder) DescribeRequest(ctx, requestID interface{}) *gom
 }
 
 // ListRequest mocks base method.
-func (m *MockRepo) ListRequest(ctx context.Context) ([]model.Request, error) {
+func (m *MockRepo) ListRequest(ctx context.Context, limit, offset uint64) ([]model.Request, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListRequest", ctx)
+	ret := m.ctrl.Call(m, "ListRequest", ctx, limit, offset)
 	ret0, _ := ret[0].([]model.Request)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListRequest indicates an expected call of ListRequest.
-func (mr *MockRepoMockRecorder) ListRequest(ctx interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) ListRequest(ctx, limit, offset interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRequest", reflect.TypeOf((*MockRepo)(nil).ListRequest), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRequest", reflect.TypeOf((*MockRepo)(nil).ListRequest), ctx, limit, offset)
 }
 
 // RemoveRequest mocks base method.
@@ -93,4 +93,19 @@ func (m *MockRepo) RemoveRequest(ctx context.Context, requestID uint64) (bool, e
 func (mr *MockRepoMockRecorder) RemoveRequest(ctx, requestID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveRequest", reflect.TypeOf((*MockRepo)(nil).RemoveRequest), ctx, requestID)
+}
+
+// UpdateRequest mocks base method.
+func (m *MockRepo) UpdateRequest(ctx context.Context, req model.Request) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateRequest", ctx, req)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateRequest indicates an expected call of UpdateRequest.
+func (mr *MockRepoMockRecorder) UpdateRequest(ctx, req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateRequest", reflect.TypeOf((*MockRepo)(nil).UpdateRequest), ctx, req)
 }

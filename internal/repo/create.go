@@ -59,13 +59,13 @@ func (r *repo) CreateRequest(ctx context.Context, req model.Request) (requestID 
 			Columns(
 				"request_id",
 				"type",
-				"locked",
+				"status",
 				"payload",
 				"updated").
 			Values(
 				req.ID,
-				"Created",
-				false,
+				model.Created,
+				model.Idle,
 				payload,
 				time.Now())
 

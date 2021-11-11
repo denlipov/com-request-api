@@ -2,9 +2,10 @@ package consumer
 
 import (
 	"context"
-	"log"
 	"sync"
 	"time"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/denlipov/com-request-api/internal/app/repo"
 	"github.com/denlipov/com-request-api/internal/model"
@@ -59,6 +60,7 @@ func (c *consumer) Start() {
 	ctx, cancel := context.WithCancel(context.Background())
 	c.cancel = cancel
 
+	log.Info().Msg("Consumer started")
 	for i := uint64(0); i < c.n; i++ {
 		c.wg.Add(1)
 
@@ -70,15 +72,17 @@ func (c *consumer) Start() {
 			for {
 				select {
 				case <-ticker.C:
-					events, err := c.repo.Lock(c.batchSize)
+					events, err := c.repo.Lock(ctx, c.batchSize)
 					if err != nil {
+						log.Error().Err(err).Msg("Lock() failed")
 						continue
 					}
+
 					for _, event := range events {
 						c.events <- event
 					}
 				case <-ctx.Done():
-					log.Println("Consumer complete")
+					log.Info().Msg("Consumer complete")
 					return
 				}
 			}

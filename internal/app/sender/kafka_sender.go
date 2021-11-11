@@ -1,10 +1,12 @@
 package sender
 
 import (
-	"github.com/denlipov/com-request-api/internal/model"
 	"errors"
-	"log"
+	"fmt"
 	"math/rand"
+
+	"github.com/denlipov/com-request-api/internal/model"
+	"github.com/rs/zerolog/log"
 )
 
 type KafkaEventSender struct {
@@ -14,12 +16,12 @@ func NewEventSender() EventSender {
 	return &KafkaEventSender{}
 }
 
-func (s *KafkaEventSender) Send(req *model.RequestEvent) error {
+func (s *KafkaEventSender) Send(ev *model.RequestEvent) error {
 	ok := false
 	if rand.Int63()%2 == 0 {
 		ok = true
 	}
-	log.Printf("Send %v: %s", ok, req.String())
+	log.Info().Msg(fmt.Sprintf("Send %v: %s; req: %s", ok, ev.String(), ev.Entity.String()))
 
 	if ok {
 		return nil

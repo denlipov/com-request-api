@@ -2,13 +2,13 @@ package producer
 
 import (
 	"context"
-	"log"
 	"sync"
 	"time"
 
 	"github.com/denlipov/com-request-api/internal/app/repo"
 	"github.com/denlipov/com-request-api/internal/app/sender"
 	"github.com/denlipov/com-request-api/internal/model"
+	"github.com/rs/zerolog/log"
 
 	"github.com/gammazero/workerpool"
 )
@@ -56,6 +56,7 @@ func (p *producer) Start() {
 	ctx, cancel := context.WithCancel(context.Background())
 	p.cancel = cancel
 
+	log.Info().Msg("Producer started")
 	for i := uint64(0); i < p.n; i++ {
 		p.wg.Add(1)
 		go func(ctx context.Context) {
@@ -72,7 +73,10 @@ func (p *producer) Start() {
 					if len(eventsToUnlock) > 0 {
 						eventBuf := eventsToUnlock
 						p.workerPool.Submit(func() {
-							p.repo.Unlock(eventBuf)
+							err := p.repo.Unlock(ctx, eventBuf)
+							if err != nil {
+								log.Error().Err(err).Msg("Unlock() events failed")
+							}
 						})
 						eventsToUnlock = nil
 					}
@@ -80,7 +84,10 @@ func (p *producer) Start() {
 					if len(eventsToRemove) > 0 {
 						eventBuf := eventsToRemove
 						p.workerPool.Submit(func() {
-							p.repo.Remove(eventBuf)
+							err := p.repo.Remove(ctx, eventBuf)
+							if err != nil {
+								log.Error().Err(err).Msg("Remove() events failed")
+							}
 						})
 						eventsToRemove = nil
 					}
@@ -93,7 +100,7 @@ func (p *producer) Start() {
 					}
 
 				case <-ctx.Done():
-					log.Println("Producer complete")
+					log.Info().Msg("Producer complete")
 					return
 				}
 			}

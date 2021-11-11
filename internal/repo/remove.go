@@ -5,6 +5,7 @@ import (
 	"time"
 
 	sq "github.com/Masterminds/squirrel"
+	"github.com/denlipov/com-request-api/internal/model"
 	pb "github.com/denlipov/com-request-api/pkg/com-request-api"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
@@ -53,13 +54,13 @@ func (r *repo) RemoveRequest(ctx context.Context, requestID uint64) (bool, error
 			Columns(
 				"request_id",
 				"type",
-				"locked",
+				"status",
 				"payload",
 				"updated").
 			Values(
 				requestID,
-				"Removed",
-				false,
+				model.Removed,
+				model.Idle,
 				payload,
 				time.Now())
 
