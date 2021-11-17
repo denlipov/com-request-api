@@ -42,16 +42,9 @@ type retranslator struct {
 
 func fixConfig(c *Config) {
 	const (
-		DefaultRepoCapacity   = 1000
 		DefaultConsumeTimeout = 2 * time.Second
 	)
 
-	if c.Repo == nil {
-		c.Repo = repo.NewEventRepo(DefaultRepoCapacity)
-	}
-	if c.Sender == nil {
-		c.Sender = sender.NewEventSender()
-	}
 	if c.ConsumeTimeout == 0 {
 		c.ConsumeTimeout = DefaultConsumeTimeout
 	}

@@ -430,6 +430,20 @@ func (m *ListRequestV1Request) Validate() error {
 		return nil
 	}
 
+	if m.GetLimit() <= 0 {
+		return ListRequestV1RequestValidationError{
+			field:  "Limit",
+			reason: "value must be greater than 0",
+		}
+	}
+
+	if m.GetOffset() <= 0 {
+		return ListRequestV1RequestValidationError{
+			field:  "Offset",
+			reason: "value must be greater than 0",
+		}
+	}
+
 	return nil
 }
 
@@ -713,3 +727,229 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = RemoveRequestV1ResponseValidationError{}
+
+// Validate checks the field values on UpdateRequestBody with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *UpdateRequestBody) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Service
+
+	// no validation rules for User
+
+	// no validation rules for Text
+
+	return nil
+}
+
+// UpdateRequestBodyValidationError is the validation error returned by
+// UpdateRequestBody.Validate if the designated constraints aren't met.
+type UpdateRequestBodyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateRequestBodyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateRequestBodyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateRequestBodyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateRequestBodyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateRequestBodyValidationError) ErrorName() string {
+	return "UpdateRequestBodyValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateRequestBodyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateRequestBody.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateRequestBodyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateRequestBodyValidationError{}
+
+// Validate checks the field values on UpdateRequestV1Request with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *UpdateRequestV1Request) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if m.GetRequestId() <= 0 {
+		return UpdateRequestV1RequestValidationError{
+			field:  "RequestId",
+			reason: "value must be greater than 0",
+		}
+	}
+
+	if v, ok := interface{}(m.GetBody()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateRequestV1RequestValidationError{
+				field:  "Body",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	return nil
+}
+
+// UpdateRequestV1RequestValidationError is the validation error returned by
+// UpdateRequestV1Request.Validate if the designated constraints aren't met.
+type UpdateRequestV1RequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateRequestV1RequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateRequestV1RequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateRequestV1RequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateRequestV1RequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateRequestV1RequestValidationError) ErrorName() string {
+	return "UpdateRequestV1RequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateRequestV1RequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateRequestV1Request.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateRequestV1RequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateRequestV1RequestValidationError{}
+
+// Validate checks the field values on UpdateRequestV1Response with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *UpdateRequestV1Response) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Status
+
+	return nil
+}
+
+// UpdateRequestV1ResponseValidationError is the validation error returned by
+// UpdateRequestV1Response.Validate if the designated constraints aren't met.
+type UpdateRequestV1ResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateRequestV1ResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateRequestV1ResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateRequestV1ResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateRequestV1ResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateRequestV1ResponseValidationError) ErrorName() string {
+	return "UpdateRequestV1ResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateRequestV1ResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateRequestV1Response.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateRequestV1ResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateRequestV1ResponseValidationError{}

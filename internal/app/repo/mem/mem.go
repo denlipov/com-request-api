@@ -1,21 +1,24 @@
 package repo
 
 import (
+	"context"
 	"fmt"
-	"log"
 	"math/rand"
 	"sync"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/denlipov/com-request-api/internal/model"
 )
 
-type memEventRepo struct {
+// MemEventRepo ...
+type MemEventRepo struct {
 	events map[uint64]*model.RequestEvent
 	lock   sync.Mutex
 }
 
 // NewEventRepo ...
-func NewEventRepo(storageCap uint64) EventRepo {
+func NewEventRepo(storageCap uint64) *MemEventRepo {
 	events := make(map[uint64]*model.RequestEvent, storageCap)
 	for i := uint64(0); i < storageCap; i++ {
 		events[i] = &model.RequestEvent{
@@ -29,12 +32,13 @@ func NewEventRepo(storageCap uint64) EventRepo {
 			},
 		}
 	}
-	return &memEventRepo{
+	return &MemEventRepo{
 		events: events,
 	}
 }
 
-func (r *memEventRepo) Lock(n uint64) ([]model.RequestEvent, error) {
+// Lock ...
+func (r *MemEventRepo) Lock(ctx context.Context, n uint64) ([]model.RequestEvent, error) {
 	r.lock.Lock()
 	defer r.lock.Unlock()
 
@@ -52,35 +56,33 @@ func (r *memEventRepo) Lock(n uint64) ([]model.RequestEvent, error) {
 	}
 	if eventsHoldTotal < n {
 		result = result[:eventsHoldTotal]
-		log.Printf("Only %d events available; was requested: %d", eventsHoldTotal, n)
+		log.Debug().Msgf("Only %d events available; was requested: %d", eventsHoldTotal, n)
 	}
 	return result, nil
 }
 
-func (r *memEventRepo) Unlock(eventIDs []uint64) error {
+// Unlock ...
+func (r *MemEventRepo) Unlock(ctx context.Context, eventIDs []uint64) error {
 	r.lock.Lock()
 	defer r.lock.Unlock()
 
-	log.Printf("Unlocking events: %v", eventIDs)
+	log.Debug().Msgf("Unlocking events: %v", eventIDs)
 	for _, id := range eventIDs {
 		if _, exists := r.events[id]; exists {
 			r.events[id].Status = model.Idle
 		} else {
-			log.Printf("Event ID %d does not exist", id)
+			log.Debug().Msgf("Event ID %d does not exist", id)
 		}
 	}
 	return nil
 }
 
-func (r *memEventRepo) Add(event []model.RequestEvent) error {
-	return nil
-}
-
-func (r *memEventRepo) Remove(eventIDs []uint64) error {
+// Remove ...
+func (r *MemEventRepo) Remove(ctx context.Context, eventIDs []uint64) error {
 	r.lock.Lock()
 	defer r.lock.Unlock()
 
-	log.Printf("Removing events: %v", eventIDs)
+	log.Debug().Msgf("Removing events: %v", eventIDs)
 	for _, id := range eventIDs {
 		delete(r.events, id)
 	}

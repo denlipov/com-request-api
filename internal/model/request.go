@@ -4,18 +4,18 @@ import "fmt"
 
 // Request ...
 type Request struct {
-	ID      uint64 `json:"id,omitempty"`
-	Service string `json:"service,omitempty"`
-	User    string `json:"user,omitempty"`
-	Text    string `json:"desc,omitempty"`
+	ID      uint64 `json:"id,omitempty" db:"id"`
+	Service string `json:"service,omitempty" db:"service"`
+	User    string `json:"user,omitempty" db:"user"`
+	Text    string `json:"desc,omitempty" db:"text"`
 }
 
 // RequestEvent ...
 type RequestEvent struct {
-	ID     uint64
-	Type   EventType
-	Status EventStatus
-	Entity *Request
+	ID     uint64      `json:"id,omitempty"`
+	Type   EventType   `json:"type,omitempty"`
+	Status EventStatus `json:"status,omitempty"`
+	Entity *Request    `json:"entiry,omitempty"`
 }
 
 var (
@@ -32,11 +32,25 @@ var (
 )
 
 func (r Request) String() string {
-	return fmt.Sprintf("id: %d; user: %s; desc: %s",
-		r.ID, r.User, r.Text)
+	return fmt.Sprintf("id: %d; service: %s; user: %s; text: %s",
+		r.ID, r.Service, r.User, r.Text)
 }
 
 func (e RequestEvent) String() string {
 	return fmt.Sprintf("RequestEvent { id: %d; type: %s; status: %s }",
 		e.ID, evTypeStr[e.Type], evStatusStr[e.Status])
+}
+
+// EventTypeStrToVal ...
+func EventTypeStrToVal(t string) EventType {
+	switch t {
+	case "Created":
+		return Created
+	case "Removed":
+		return Removed
+	case "Updated":
+		return Updated
+	default:
+		return InvalidType
+	}
 }

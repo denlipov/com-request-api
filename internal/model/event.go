@@ -7,8 +7,11 @@ type EventType uint8
 type EventStatus uint8
 
 const (
+	// InvalidType ...
+	InvalidType EventType = iota
+
 	// Created ...
-	Created EventType = iota
+	Created
 
 	// Updated ...
 	Updated
@@ -16,8 +19,11 @@ const (
 	// Removed ...
 	Removed
 
+	// InvalidStatus ...
+	InvalidStatus EventStatus = iota
+
 	// Idle ...
-	Idle EventStatus = iota
+	Idle
 
 	// Deferred ...
 	Deferred
