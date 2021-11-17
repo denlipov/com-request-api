@@ -21,8 +21,8 @@ metrics:
 
 jaeger:
   service: "com-request-api"
-  host: "jaeger"
-  port: ":6831"
+  host: "localhost"
+  port: ":5778"
 
 status:
   host: 0.0.0.0
@@ -32,7 +32,8 @@ status:
   versionPath: /version
 
 database:
-  host: localhost
+  host: postgres
+    #host: localhost
   port: 5432
   user: postgres
   password: postgres

@@ -6,9 +6,13 @@ import (
 	sq "github.com/Masterminds/squirrel"
 	"github.com/denlipov/com-request-api/internal/model"
 	"github.com/jmoiron/sqlx"
+	"github.com/opentracing/opentracing-go"
 )
 
 func (r *repo) ListRequest(ctx context.Context, limit, offset uint64) ([]model.Request, error) {
+
+	span, ctx := opentracing.StartSpanFromContext(ctx, "repo.ListRequest")
+	defer span.Finish()
 
 	query, args, err := sq.StatementBuilder.
 		PlaceholderFormat(sq.Dollar).

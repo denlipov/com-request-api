@@ -8,6 +8,7 @@ import (
 	"github.com/denlipov/com-request-api/internal/model"
 	pb "github.com/denlipov/com-request-api/pkg/com-request-api"
 	"github.com/jmoiron/sqlx"
+	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	"google.golang.org/protobuf/encoding/protojson"
 )
@@ -40,6 +41,10 @@ func (r *repo) CreateRequest(ctx context.Context, req model.Request) (uint64, er
 		err := query.QueryRowContext(ctx).Scan(&req.ID)
 		if err != nil {
 			return 0, err
+		}
+
+		if span := opentracing.SpanFromContext(ctx); span != nil {
+			span.SetTag("requestID", req.ID)
 		}
 
 		pbReq := &pb.Request{

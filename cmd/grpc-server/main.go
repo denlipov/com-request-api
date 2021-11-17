@@ -16,6 +16,7 @@ import (
 	"github.com/denlipov/com-request-api/internal/database"
 	"github.com/denlipov/com-request-api/internal/server"
 	"github.com/denlipov/com-request-api/internal/tracer"
+	"github.com/halink0803/zerolog-graylog-hook/graylog"
 )
 
 var (
@@ -23,7 +24,14 @@ var (
 )
 
 func main() {
-	if err := config.ReadConfigYML("config.yml"); err != nil {
+	hook, err := graylog.NewGraylogHook("udp://graylog:12201")
+	if err != nil {
+		panic(err)
+	}
+	//Set global logger with graylog hook
+	log.Logger = log.Hook(hook)
+
+	if err = config.ReadConfigYML("config.yml"); err != nil {
 		log.Fatal().Err(err).Msg("Failed init configuration")
 	}
 	cfg := config.GetConfigInstance()
@@ -58,7 +66,6 @@ func main() {
 	}
 	defer db.Close()
 
-	*migration = false // todo: need to delete this line for homework-4
 	if *migration {
 		if err = goose.Up(db.DB, cfg.Database.Migrations); err != nil {
 			log.Error().Err(err).Msg("Migration failed")

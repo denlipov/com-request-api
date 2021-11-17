@@ -16,12 +16,21 @@ import (
 	"github.com/denlipov/com-request-api/internal/app/sender"
 	"github.com/denlipov/com-request-api/internal/config"
 	"github.com/denlipov/com-request-api/internal/database"
+	"github.com/denlipov/com-request-api/internal/tracer"
+	"github.com/halink0803/zerolog-graylog-hook/graylog"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
 func main() {
-	if err := config.ReadConfigYML("config.yml"); err != nil {
+	hook, err := graylog.NewGraylogHook("udp://graylog:12201")
+	if err != nil {
+		panic(err)
+	}
+	//Set global logger with graylog hook
+	log.Logger = log.Hook(hook)
+
+	if err = config.ReadConfigYML("config.yml"); err != nil {
 		log.Fatal().Err(err).Msg("Failed init configuration")
 	}
 	cfg := config.GetConfigInstance()
@@ -46,6 +55,13 @@ func main() {
 	defer db.Close()
 
 	log.Debug().Msg("Db initialized")
+
+	tracing, err := tracer.NewTracer(&cfg)
+	if err != nil {
+		log.Error().Err(err).Msg("Failed init tracing")
+		return
+	}
+	defer tracing.Close()
 
 	sigs := make(chan os.Signal, 1)
 

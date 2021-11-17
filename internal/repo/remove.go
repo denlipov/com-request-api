@@ -8,11 +8,16 @@ import (
 	"github.com/denlipov/com-request-api/internal/model"
 	pb "github.com/denlipov/com-request-api/pkg/com-request-api"
 	"github.com/jmoiron/sqlx"
+	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func (r *repo) RemoveRequest(ctx context.Context, requestID uint64) (bool, error) {
+
+	if span := opentracing.SpanFromContext(ctx); span != nil {
+		span.SetTag("requestID", requestID)
+	}
 
 	doRemove := func(ctx context.Context, requestID uint64, tx *sqlx.Tx) error {
 
