@@ -32,11 +32,11 @@ status:
   versionPath: /version
 
 database:
-  host: postgres
+  host: localhost
   port: 5432
-  user: docker
-  password: docker
-  name: com_request_api
+  user: postgres
+  password: postgres
+  name: ozonmp
   sslmode: disable
   migrations: migrations
   driver: pgx

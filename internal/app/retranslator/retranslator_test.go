@@ -1,34 +1,60 @@
 package retranslator
 
 import (
-	"math/rand"
 	"testing"
 	"time"
 
-	"github.com/denlipov/com-request-api/internal/app/repo"
-	"github.com/denlipov/com-request-api/internal/app/sender"
+	"github.com/denlipov/com-request-api/internal/mocks"
+	"github.com/denlipov/com-request-api/internal/model"
+	"github.com/golang/mock/gomock"
 )
 
 func TestStart(t *testing.T) {
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
 	t.Run("Retranslator test", func(t *testing.T) {
-		rnd := func() uint64 {
-			return uint64((rand.Int63() % 9) + int64(1)) // nolint:gosec
-		}
+
+		batchSize := uint64(1)
+
+		repo := mocks.NewMockEventRepo(ctrl)
+
+		repo.EXPECT().
+			Lock(gomock.Any(), batchSize).
+			Return(
+				[]model.RequestEvent{
+					model.RequestEvent{ID: 1},
+				},
+				nil).
+			AnyTimes()
+
+		repo.EXPECT().
+			Remove(gomock.Any(), gomock.Any()).
+			Return(nil).
+			AnyTimes()
+
+		sender := mocks.NewMockEventSender(ctrl)
+
+		sender.EXPECT().
+			Send(&model.RequestEvent{ID: 1}).
+			Return(nil).
+			AnyTimes()
 
 		cfg := Config{
-			ChannelSize:    rnd() * 100,
-			ConsumerCount:  rnd(),
-			ConsumeSize:    rnd(),
-			ConsumeTimeout: time.Duration(rnd()) * time.Second,
-			ProducerCount:  rnd(),
-			WorkerCount:    int(rnd()),
-			Repo:           repo.NewEventRepo(rnd() * 1000),
-			Sender:         sender.NewEventSender(),
+			ChannelSize:    32,
+			ConsumerCount:  2,
+			ConsumeSize:    batchSize,
+			ConsumeTimeout: 1 * time.Second,
+			ProducerCount:  2,
+			WorkerCount:    2,
+			Repo:           repo,
+			Sender:         sender,
 		}
 
 		retranslator := NewRetranslator(cfg)
 		retranslator.Start()
-		time.Sleep(time.Duration(rnd()) * time.Second)
+		time.Sleep(4 * time.Second)
 		retranslator.Close()
 	})
 }

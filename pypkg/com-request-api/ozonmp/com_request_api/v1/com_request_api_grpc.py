@@ -32,6 +32,10 @@ class ComRequestApiServiceBase(abc.ABC):
     async def RemoveRequestV1(self, stream: 'grpclib.server.Stream[ozonmp.com_request_api.v1.com_request_api_pb2.RemoveRequestV1Request, ozonmp.com_request_api.v1.com_request_api_pb2.RemoveRequestV1Response]') -> None:
         pass
 
+    @abc.abstractmethod
+    async def UpdateRequestV1(self, stream: 'grpclib.server.Stream[ozonmp.com_request_api.v1.com_request_api_pb2.UpdateRequestV1Request, ozonmp.com_request_api.v1.com_request_api_pb2.UpdateRequestV1Response]') -> None:
+        pass
+
     def __mapping__(self) -> typing.Dict[str, grpclib.const.Handler]:
         return {
             '/ozonmp.com_request_api.v1.ComRequestApiService/DescribeRequestV1': grpclib.const.Handler(
@@ -57,6 +61,12 @@ class ComRequestApiServiceBase(abc.ABC):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 ozonmp.com_request_api.v1.com_request_api_pb2.RemoveRequestV1Request,
                 ozonmp.com_request_api.v1.com_request_api_pb2.RemoveRequestV1Response,
+            ),
+            '/ozonmp.com_request_api.v1.ComRequestApiService/UpdateRequestV1': grpclib.const.Handler(
+                self.UpdateRequestV1,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                ozonmp.com_request_api.v1.com_request_api_pb2.UpdateRequestV1Request,
+                ozonmp.com_request_api.v1.com_request_api_pb2.UpdateRequestV1Response,
             ),
         }
 
@@ -87,4 +97,10 @@ class ComRequestApiServiceStub:
             '/ozonmp.com_request_api.v1.ComRequestApiService/RemoveRequestV1',
             ozonmp.com_request_api.v1.com_request_api_pb2.RemoveRequestV1Request,
             ozonmp.com_request_api.v1.com_request_api_pb2.RemoveRequestV1Response,
+        )
+        self.UpdateRequestV1 = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/ozonmp.com_request_api.v1.ComRequestApiService/UpdateRequestV1',
+            ozonmp.com_request_api.v1.com_request_api_pb2.UpdateRequestV1Request,
+            ozonmp.com_request_api.v1.com_request_api_pb2.UpdateRequestV1Response,
         )

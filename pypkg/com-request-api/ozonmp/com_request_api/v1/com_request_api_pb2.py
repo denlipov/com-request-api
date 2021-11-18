@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'ZGgithub.com/denlipov/com-request-api/pkg/com-request-api;com_request_api',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n/ozonmp/com_request_api/v1/com_request_api.proto\x12\x19ozonmp.com_request_api.v1\x1a\x17validate/validate.proto\x1a\x1cgoogle/api/annotations.proto\"v\n\x07Request\x12\x0e\n\x02id\x18\x01 \x01(\x04R\x02id\x12!\n\x07service\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x07service\x12\x1b\n\x04user\x18\x03 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x04user\x12\x1b\n\x04text\x18\x04 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x04text\"B\n\x18\x44\x65scribeRequestV1Request\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"U\n\x19\x44\x65scribeRequestV1Response\x12\x38\n\x05value\x18\x01 \x01(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x05value\"V\n\x16\x43reateRequestV1Request\x12<\n\x07request\x18\x01 \x01(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x07request\"A\n\x17\x43reateRequestV1Response\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"\x16\n\x14ListRequestV1Request\"U\n\x15ListRequestV1Response\x12<\n\x07request\x18\x01 \x03(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x07request\"@\n\x16RemoveRequestV1Request\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"1\n\x17RemoveRequestV1Response\x12\x16\n\x06status\x18\x01 \x01(\x08R\x06status2\x8a\x05\n\x14\x43omRequestApiService\x12\xa1\x01\n\x11\x44\x65scribeRequestV1\x12\x33.ozonmp.com_request_api.v1.DescribeRequestV1Request\x1a\x34.ozonmp.com_request_api.v1.DescribeRequestV1Response\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/v1/requests/{request_id}\x12\x98\x01\n\x0f\x43reateRequestV1\x12\x31.ozonmp.com_request_api.v1.CreateRequestV1Request\x1a\x32.ozonmp.com_request_api.v1.CreateRequestV1Response\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/v1/requests/create:\x01*\x12\x8d\x01\n\rListRequestV1\x12/.ozonmp.com_request_api.v1.ListRequestV1Request\x1a\x30.ozonmp.com_request_api.v1.ListRequestV1Response\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/v1/requests/list\x12\xa2\x01\n\x0fRemoveRequestV1\x12\x31.ozonmp.com_request_api.v1.RemoveRequestV1Request\x1a\x32.ozonmp.com_request_api.v1.RemoveRequestV1Response\"(\x82\xd3\xe4\x93\x02\"* /v1/requests/remove/{request_id}BIZGgithub.com/denlipov/com-request-api/pkg/com-request-api;com_request_apib\x06proto3'
+  serialized_pb=b'\n/ozonmp/com_request_api/v1/com_request_api.proto\x12\x19ozonmp.com_request_api.v1\x1a\x17validate/validate.proto\x1a\x1cgoogle/api/annotations.proto\"v\n\x07Request\x12\x0e\n\x02id\x18\x01 \x01(\x04R\x02id\x12!\n\x07service\x18\x02 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x07service\x12\x1b\n\x04user\x18\x03 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x04user\x12\x1b\n\x04text\x18\x04 \x01(\tB\x07\xfa\x42\x04r\x02\x10\x02R\x04text\"B\n\x18\x44\x65scribeRequestV1Request\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"U\n\x19\x44\x65scribeRequestV1Response\x12\x38\n\x05value\x18\x01 \x01(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x05value\"V\n\x16\x43reateRequestV1Request\x12<\n\x07request\x18\x01 \x01(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x07request\"A\n\x17\x43reateRequestV1Response\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"V\n\x14ListRequestV1Request\x12\x1d\n\x05limit\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\x05limit\x12\x1f\n\x06offset\x18\x02 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\x06offset\"U\n\x15ListRequestV1Response\x12<\n\x07request\x18\x01 \x03(\x0b\x32\".ozonmp.com_request_api.v1.RequestR\x07request\"@\n\x16RemoveRequestV1Request\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\"1\n\x17RemoveRequestV1Response\x12\x16\n\x06status\x18\x01 \x01(\x08R\x06status\"U\n\x11UpdateRequestBody\x12\x18\n\x07service\x18\x02 \x01(\tR\x07service\x12\x12\n\x04user\x18\x03 \x01(\tR\x04user\x12\x12\n\x04text\x18\x04 \x01(\tR\x04text\"\x82\x01\n\x16UpdateRequestV1Request\x12&\n\nrequest_id\x18\x01 \x01(\x04\x42\x07\xfa\x42\x04\x32\x02 \x00R\trequestId\x12@\n\x04\x62ody\x18\x02 \x01(\x0b\x32,.ozonmp.com_request_api.v1.UpdateRequestBodyR\x04\x62ody\"1\n\x17UpdateRequestV1Response\x12\x16\n\x06status\x18\x01 \x01(\x08R\x06status2\xb5\x06\n\x14\x43omRequestApiService\x12\xa1\x01\n\x11\x44\x65scribeRequestV1\x12\x33.ozonmp.com_request_api.v1.DescribeRequestV1Request\x1a\x34.ozonmp.com_request_api.v1.DescribeRequestV1Response\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/v1/requests/{request_id}\x12\x98\x01\n\x0f\x43reateRequestV1\x12\x31.ozonmp.com_request_api.v1.CreateRequestV1Request\x1a\x32.ozonmp.com_request_api.v1.CreateRequestV1Response\"\x1e\x82\xd3\xe4\x93\x02\x18\"\x13/v1/requests/create:\x01*\x12\x90\x01\n\rListRequestV1\x12/.ozonmp.com_request_api.v1.ListRequestV1Request\x1a\x30.ozonmp.com_request_api.v1.ListRequestV1Response\"\x1c\x82\xd3\xe4\x93\x02\x16\"\x11/v1/requests/list:\x01*\x12\xa2\x01\n\x0fRemoveRequestV1\x12\x31.ozonmp.com_request_api.v1.RemoveRequestV1Request\x1a\x32.ozonmp.com_request_api.v1.RemoveRequestV1Response\"(\x82\xd3\xe4\x93\x02\"* /v1/requests/remove/{request_id}\x12\xa5\x01\n\x0fUpdateRequestV1\x12\x31.ozonmp.com_request_api.v1.UpdateRequestV1Request\x1a\x32.ozonmp.com_request_api.v1.UpdateRequestV1Response\"+\x82\xd3\xe4\x93\x02%\" /v1/requests/update/{request_id}:\x01*BIZGgithub.com/denlipov/com-request-api/pkg/com-request-api;com_request_apib\x06proto3'
   ,
   dependencies=[validate_dot_validate__pb2.DESCRIPTOR,google_dot_api_dot_annotations__pb2.DESCRIPTOR,])
 
@@ -217,6 +217,20 @@ _LISTREQUESTV1REQUEST = _descriptor.Descriptor(
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
+    _descriptor.FieldDescriptor(
+      name='limit', full_name='ozonmp.com_request_api.v1.ListRequestV1Request.limit', index=0,
+      number=1, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\0042\002 \000', json_name='limit', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='offset', full_name='ozonmp.com_request_api.v1.ListRequestV1Request.offset', index=1,
+      number=2, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\0042\002 \000', json_name='offset', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -230,7 +244,7 @@ _LISTREQUESTV1REQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=563,
-  serialized_end=585,
+  serialized_end=649,
 )
 
 
@@ -261,8 +275,8 @@ _LISTREQUESTV1RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=587,
-  serialized_end=672,
+  serialized_start=651,
+  serialized_end=736,
 )
 
 
@@ -293,8 +307,8 @@ _REMOVEREQUESTV1REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=674,
-  serialized_end=738,
+  serialized_start=738,
+  serialized_end=802,
 )
 
 
@@ -325,13 +339,131 @@ _REMOVEREQUESTV1RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=740,
-  serialized_end=789,
+  serialized_start=804,
+  serialized_end=853,
+)
+
+
+_UPDATEREQUESTBODY = _descriptor.Descriptor(
+  name='UpdateRequestBody',
+  full_name='ozonmp.com_request_api.v1.UpdateRequestBody',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='service', full_name='ozonmp.com_request_api.v1.UpdateRequestBody.service', index=0,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='service', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='user', full_name='ozonmp.com_request_api.v1.UpdateRequestBody.user', index=1,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='user', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='text', full_name='ozonmp.com_request_api.v1.UpdateRequestBody.text', index=2,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='text', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=855,
+  serialized_end=940,
+)
+
+
+_UPDATEREQUESTV1REQUEST = _descriptor.Descriptor(
+  name='UpdateRequestV1Request',
+  full_name='ozonmp.com_request_api.v1.UpdateRequestV1Request',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='request_id', full_name='ozonmp.com_request_api.v1.UpdateRequestV1Request.request_id', index=0,
+      number=1, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=b'\372B\0042\002 \000', json_name='requestId', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='body', full_name='ozonmp.com_request_api.v1.UpdateRequestV1Request.body', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='body', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=943,
+  serialized_end=1073,
+)
+
+
+_UPDATEREQUESTV1RESPONSE = _descriptor.Descriptor(
+  name='UpdateRequestV1Response',
+  full_name='ozonmp.com_request_api.v1.UpdateRequestV1Response',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='ozonmp.com_request_api.v1.UpdateRequestV1Response.status', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, json_name='status', file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1075,
+  serialized_end=1124,
 )
 
 _DESCRIBEREQUESTV1RESPONSE.fields_by_name['value'].message_type = _REQUEST
 _CREATEREQUESTV1REQUEST.fields_by_name['request'].message_type = _REQUEST
 _LISTREQUESTV1RESPONSE.fields_by_name['request'].message_type = _REQUEST
+_UPDATEREQUESTV1REQUEST.fields_by_name['body'].message_type = _UPDATEREQUESTBODY
 DESCRIPTOR.message_types_by_name['Request'] = _REQUEST
 DESCRIPTOR.message_types_by_name['DescribeRequestV1Request'] = _DESCRIBEREQUESTV1REQUEST
 DESCRIPTOR.message_types_by_name['DescribeRequestV1Response'] = _DESCRIBEREQUESTV1RESPONSE
@@ -341,6 +473,9 @@ DESCRIPTOR.message_types_by_name['ListRequestV1Request'] = _LISTREQUESTV1REQUEST
 DESCRIPTOR.message_types_by_name['ListRequestV1Response'] = _LISTREQUESTV1RESPONSE
 DESCRIPTOR.message_types_by_name['RemoveRequestV1Request'] = _REMOVEREQUESTV1REQUEST
 DESCRIPTOR.message_types_by_name['RemoveRequestV1Response'] = _REMOVEREQUESTV1RESPONSE
+DESCRIPTOR.message_types_by_name['UpdateRequestBody'] = _UPDATEREQUESTBODY
+DESCRIPTOR.message_types_by_name['UpdateRequestV1Request'] = _UPDATEREQUESTV1REQUEST
+DESCRIPTOR.message_types_by_name['UpdateRequestV1Response'] = _UPDATEREQUESTV1RESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Request = _reflection.GeneratedProtocolMessageType('Request', (_message.Message,), {
@@ -406,6 +541,27 @@ RemoveRequestV1Response = _reflection.GeneratedProtocolMessageType('RemoveReques
   })
 _sym_db.RegisterMessage(RemoveRequestV1Response)
 
+UpdateRequestBody = _reflection.GeneratedProtocolMessageType('UpdateRequestBody', (_message.Message,), {
+  'DESCRIPTOR' : _UPDATEREQUESTBODY,
+  '__module__' : 'ozonmp.com_request_api.v1.com_request_api_pb2'
+  # @@protoc_insertion_point(class_scope:ozonmp.com_request_api.v1.UpdateRequestBody)
+  })
+_sym_db.RegisterMessage(UpdateRequestBody)
+
+UpdateRequestV1Request = _reflection.GeneratedProtocolMessageType('UpdateRequestV1Request', (_message.Message,), {
+  'DESCRIPTOR' : _UPDATEREQUESTV1REQUEST,
+  '__module__' : 'ozonmp.com_request_api.v1.com_request_api_pb2'
+  # @@protoc_insertion_point(class_scope:ozonmp.com_request_api.v1.UpdateRequestV1Request)
+  })
+_sym_db.RegisterMessage(UpdateRequestV1Request)
+
+UpdateRequestV1Response = _reflection.GeneratedProtocolMessageType('UpdateRequestV1Response', (_message.Message,), {
+  'DESCRIPTOR' : _UPDATEREQUESTV1RESPONSE,
+  '__module__' : 'ozonmp.com_request_api.v1.com_request_api_pb2'
+  # @@protoc_insertion_point(class_scope:ozonmp.com_request_api.v1.UpdateRequestV1Response)
+  })
+_sym_db.RegisterMessage(UpdateRequestV1Response)
+
 
 DESCRIPTOR._options = None
 _REQUEST.fields_by_name['service']._options = None
@@ -413,7 +569,10 @@ _REQUEST.fields_by_name['user']._options = None
 _REQUEST.fields_by_name['text']._options = None
 _DESCRIBEREQUESTV1REQUEST.fields_by_name['request_id']._options = None
 _CREATEREQUESTV1RESPONSE.fields_by_name['request_id']._options = None
+_LISTREQUESTV1REQUEST.fields_by_name['limit']._options = None
+_LISTREQUESTV1REQUEST.fields_by_name['offset']._options = None
 _REMOVEREQUESTV1REQUEST.fields_by_name['request_id']._options = None
+_UPDATEREQUESTV1REQUEST.fields_by_name['request_id']._options = None
 
 _COMREQUESTAPISERVICE = _descriptor.ServiceDescriptor(
   name='ComRequestApiService',
@@ -422,8 +581,8 @@ _COMREQUESTAPISERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=792,
-  serialized_end=1442,
+  serialized_start=1127,
+  serialized_end=1948,
   methods=[
   _descriptor.MethodDescriptor(
     name='DescribeRequestV1',
@@ -452,7 +611,7 @@ _COMREQUESTAPISERVICE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_LISTREQUESTV1REQUEST,
     output_type=_LISTREQUESTV1RESPONSE,
-    serialized_options=b'\202\323\344\223\002\023\022\021/v1/requests/list',
+    serialized_options=b'\202\323\344\223\002\026\"\021/v1/requests/list:\001*',
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
@@ -463,6 +622,16 @@ _COMREQUESTAPISERVICE = _descriptor.ServiceDescriptor(
     input_type=_REMOVEREQUESTV1REQUEST,
     output_type=_REMOVEREQUESTV1RESPONSE,
     serialized_options=b'\202\323\344\223\002\"* /v1/requests/remove/{request_id}',
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='UpdateRequestV1',
+    full_name='ozonmp.com_request_api.v1.ComRequestApiService.UpdateRequestV1',
+    index=4,
+    containing_service=None,
+    input_type=_UPDATEREQUESTV1REQUEST,
+    output_type=_UPDATEREQUESTV1RESPONSE,
+    serialized_options=b'\202\323\344\223\002%\" /v1/requests/update/{request_id}:\001*',
     create_key=_descriptor._internal_create_key,
   ),
 ])
