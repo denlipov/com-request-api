@@ -91,6 +91,7 @@ type Status struct {
 	ReadinessPath string `yaml:"readinessPath"`
 }
 
+// Graylog config for service
 type Graylog struct {
 	Proto string `yaml:"proto"`
 	Host  string `yaml:"host"`
