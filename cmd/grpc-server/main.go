@@ -24,17 +24,28 @@ var (
 )
 
 func main() {
-	hook, err := graylog.NewGraylogHook("udp://graylog:12201")
-	if err != nil {
-		panic(err)
-	}
-	//Set global logger with graylog hook
-	log.Logger = log.Hook(hook)
-
-	if err = config.ReadConfigYML("config.yml"); err != nil {
+	if err := config.ReadConfigYML("config.yml"); err != nil {
 		log.Fatal().Err(err).Msg("Failed init configuration")
 	}
+
 	cfg := config.GetConfigInstance()
+
+	// default: zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	if cfg.Project.Debug {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	}
+
+	hook, err := graylog.NewGraylogHook(
+		fmt.Sprintf("%s://%s:%d",
+			cfg.Graylog.Proto,
+			cfg.Graylog.Host,
+			cfg.Graylog.Port))
+	if err != nil {
+		log.Error().Msgf("Unable to connect to graylog service: %+v", err)
+	} else {
+		//Set global logger with graylog hook
+		log.Logger = log.Hook(hook)
+	}
 
 	migration := flag.Bool("migration", true, "Defines the migration start option")
 	flag.Parse()
@@ -45,11 +56,6 @@ func main() {
 		Bool("debug", cfg.Project.Debug).
 		Str("environment", cfg.Project.Environment).
 		Msgf("Starting service: %s", cfg.Project.Name)
-
-	// default: zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	if cfg.Project.Debug {
-		zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	}
 
 	dsn := fmt.Sprintf("host=%v port=%v user=%v password=%v dbname=%v sslmode=%v",
 		cfg.Database.Host,

@@ -49,3 +49,8 @@ kafka:
   brokers:
     - "kafka:9092"
     - "localhost:9094"
+
+graylog:
+  proto: udp
+  host: graylog
+  port: 12201
