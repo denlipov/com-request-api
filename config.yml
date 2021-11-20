@@ -21,8 +21,8 @@ metrics:
 
 jaeger:
   service: "com-request-api"
-  host: "jaeger"
-  port: ":6831"
+  host: "localhost"
+  port: ":5778"
 
 status:
   host: 0.0.0.0
@@ -32,7 +32,8 @@ status:
   versionPath: /version
 
 database:
-  host: localhost
+  host: postgres
+    #host: localhost
   port: 5432
   user: postgres
   password: postgres
@@ -48,3 +49,8 @@ kafka:
   brokers:
     - "kafka:9092"
     - "localhost:9094"
+
+graylog:
+  proto: udp
+  host: graylog
+  port: 12201

@@ -78,6 +78,8 @@ func (p *producer) Start() {
 							err := p.repo.Unlock(ctx, eventBuf)
 							if err != nil {
 								log.Error().Err(err).Msg("Unlock() events failed")
+							} else {
+								repo.TotalEventsProcessedAdd(float64(len(eventsToUnlock)))
 							}
 						})
 						eventsToUnlock = nil
@@ -85,10 +87,13 @@ func (p *producer) Start() {
 
 					if len(eventsToRemove) > 0 {
 						eventBuf := eventsToRemove
+						count := len(eventsToRemove)
 						p.workerPool.Submit(func() {
 							err := p.repo.Remove(ctx, eventBuf)
 							if err != nil {
 								log.Error().Err(err).Msg("Remove() events failed")
+							} else {
+								repo.TotalEventsProcessedAdd(float64(count))
 							}
 						})
 						eventsToRemove = nil

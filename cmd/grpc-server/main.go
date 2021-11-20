@@ -16,6 +16,7 @@ import (
 	"github.com/denlipov/com-request-api/internal/database"
 	"github.com/denlipov/com-request-api/internal/server"
 	"github.com/denlipov/com-request-api/internal/tracer"
+	"github.com/halink0803/zerolog-graylog-hook/graylog"
 )
 
 var (
@@ -26,7 +27,25 @@ func main() {
 	if err := config.ReadConfigYML("config.yml"); err != nil {
 		log.Fatal().Err(err).Msg("Failed init configuration")
 	}
+
 	cfg := config.GetConfigInstance()
+
+	// default: zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	if cfg.Project.Debug {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	}
+
+	hook, err := graylog.NewGraylogHook(
+		fmt.Sprintf("%s://%s:%d",
+			cfg.Graylog.Proto,
+			cfg.Graylog.Host,
+			cfg.Graylog.Port))
+	if err != nil {
+		log.Error().Msgf("Unable to connect to graylog service: %+v", err)
+	} else {
+		//Set global logger with graylog hook
+		log.Logger = log.Hook(hook)
+	}
 
 	migration := flag.Bool("migration", true, "Defines the migration start option")
 	flag.Parse()
@@ -37,11 +56,6 @@ func main() {
 		Bool("debug", cfg.Project.Debug).
 		Str("environment", cfg.Project.Environment).
 		Msgf("Starting service: %s", cfg.Project.Name)
-
-	// default: zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	if cfg.Project.Debug {
-		zerolog.SetGlobalLevel(zerolog.DebugLevel)
-	}
 
 	dsn := fmt.Sprintf("host=%v port=%v user=%v password=%v dbname=%v sslmode=%v",
 		cfg.Database.Host,
@@ -58,7 +72,6 @@ func main() {
 	}
 	defer db.Close()
 
-	*migration = false // todo: need to delete this line for homework-4
 	if *migration {
 		if err = goose.Up(db.DB, cfg.Database.Migrations); err != nil {
 			log.Error().Err(err).Msg("Migration failed")

@@ -82,7 +82,12 @@ func (c *consumer) Start() {
 						continue
 					}
 
+					if len(events) > 0 {
+						log.Debug().Msgf("%d events locked", len(events))
+					}
+
 					for _, event := range events {
+						repo.TotalEventsProcessedAdd(1.0)
 						c.events <- event
 					}
 				case <-ctx.Done():

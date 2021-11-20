@@ -12,6 +12,7 @@ import (
 
 	"github.com/denlipov/com-request-api/internal/model"
 	"github.com/denlipov/com-request-api/internal/repo"
+	"github.com/opentracing/opentracing-go"
 
 	pb "github.com/denlipov/com-request-api/pkg/com-request-api"
 )
@@ -38,6 +39,9 @@ func (o *requestAPI) DescribeRequestV1(
 	req *pb.DescribeRequestV1Request,
 ) (*pb.DescribeRequestV1Response, error) {
 
+	span, ctx := opentracing.StartSpanFromContext(ctx, "api.DescribeRequestV1")
+	defer span.Finish()
+
 	if err := req.Validate(); err != nil {
 		log.Error().Err(err).Msg("DescribeRequestV1 - invalid argument")
 
@@ -52,7 +56,7 @@ func (o *requestAPI) DescribeRequestV1(
 	}
 
 	if request == nil {
-		log.Debug().Uint64("requestId", req.RequestId).Msg("request not found")
+		log.Error().Uint64("requestId", req.RequestId).Msg("request not found")
 		totalRequestNotFound.Inc()
 
 		return nil, status.Error(codes.NotFound, "request not found")
@@ -73,6 +77,9 @@ func (o *requestAPI) DescribeRequestV1(
 func (o *requestAPI) CreateRequestV1(
 	ctx context.Context,
 	req *pb.CreateRequestV1Request) (*pb.CreateRequestV1Response, error) {
+
+	span, ctx := opentracing.StartSpanFromContext(ctx, "api.CreateRequestV1")
+	defer span.Finish()
 
 	if err := req.Validate(); err != nil {
 		log.Error().Err(err).Msg("CreateRequestV1 - invalid argument")
@@ -103,6 +110,9 @@ func (o *requestAPI) ListRequestV1(
 	ctx context.Context,
 	req *pb.ListRequestV1Request) (*pb.ListRequestV1Response, error) {
 
+	span, ctx := opentracing.StartSpanFromContext(ctx, "api.ListRequestV1")
+	defer span.Finish()
+
 	respArrayInternal, err := o.repo.ListRequest(ctx, req.Limit, req.Offset)
 	if err != nil {
 		log.Error().Err(err).Msg("ListRequestV1 -- failed")
@@ -128,6 +138,9 @@ func (o *requestAPI) ListRequestV1(
 func (o *requestAPI) RemoveRequestV1(
 	ctx context.Context,
 	req *pb.RemoveRequestV1Request) (*pb.RemoveRequestV1Response, error) {
+
+	span, ctx := opentracing.StartSpanFromContext(ctx, "api.RemoveRequestV1")
+	defer span.Finish()
 
 	if err := req.Validate(); err != nil {
 		log.Error().Err(err).Msg("RemoveRequestV1 - invalid argument")
@@ -159,6 +172,9 @@ func (o *requestAPI) RemoveRequestV1(
 func (o *requestAPI) UpdateRequestV1(
 	ctx context.Context,
 	req *pb.UpdateRequestV1Request) (*pb.UpdateRequestV1Response, error) {
+
+	span, ctx := opentracing.StartSpanFromContext(ctx, "api.UpdateRequestV1")
+	defer span.Finish()
 
 	if err := req.Validate(); err != nil {
 		log.Error().Err(err).Msg("UpdateRequestV1 - invalid argument")

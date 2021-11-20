@@ -32,7 +32,7 @@ services:
       retries: 3
       start_period: 20s
     volumes:
-      - ./migrations:/root/migrations
+      - ./migrations/migrations:/root/migrations
       - ./config.yml:/root/config.yml
 
   postgres:
@@ -53,13 +53,14 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: omp_template_api
+      POSTGRES_DB: ozonmp
       APP_DB_USER: docker
       APP_DB_PASS: docker
     networks:
       - ompnw
     volumes:
       # - pgdata:/var/lib/postgresql/data
+      - ../postgres_data:/var/lib/postgresql/data:rw
       - ./scripts/init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
 
   zookeeper:
@@ -125,7 +126,7 @@ services:
     volumes:
       - ./swagger:/swagger
     environment:
-      SWAGGER_JSON: /swagger/ozonmp/omp_template_api/v1/omp_template_api.swagger.json
+      SWAGGER_JSON: /swagger/ozonmp/com_request_api/v1/com_request_api.swagger.json
     depends_on:
       - com-request-api
     networks:
@@ -163,6 +164,8 @@ services:
   grafana:
     image: grafana/grafana:latest
     restart: unless-stopped
+    depends_on:
+      - prometheus
     ports:
       - 3000:3000
     links:
@@ -173,7 +176,7 @@ services:
     networks:
       - ompnw
     volumes:
-      - "./data/grafana:/var/lib/grafana"
+      - ../grafana_data/grafana:/var/lib/grafana:rw
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2
@@ -206,7 +209,7 @@ services:
 
   # Graylog: https://hub.docker.com/r/graylog/graylog/
   graylog:
-    image: graylog/graylog:4.0
+    image: graylog/graylog:4.2
     environment:
       # CHANGE ME (must be at least 16 characters)!
       - GRAYLOG_PASSWORD_SECRET=somepasswordpepper

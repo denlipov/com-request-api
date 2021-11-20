@@ -5,9 +5,14 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 	"github.com/denlipov/com-request-api/internal/model"
+	"github.com/opentracing/opentracing-go"
 )
 
 func (r *repo) DescribeRequest(ctx context.Context, requestID uint64) (*model.Request, error) {
+
+	if span := opentracing.SpanFromContext(ctx); span != nil {
+		span.SetTag("requestID", requestID)
+	}
 
 	query, args, err := sq.StatementBuilder.
 		PlaceholderFormat(sq.Dollar).

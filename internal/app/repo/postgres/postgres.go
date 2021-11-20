@@ -8,6 +8,7 @@ import (
 	"github.com/denlipov/com-request-api/internal/model"
 	pb "github.com/denlipov/com-request-api/pkg/com-request-api"
 	"github.com/jmoiron/sqlx"
+	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -27,6 +28,9 @@ func NewEventRepo(db *sqlx.DB) *PGEventRepo {
 
 // Lock ...
 func (r *PGEventRepo) Lock(ctx context.Context, n uint64) ([]model.RequestEvent, error) {
+
+	span, ctx := opentracing.StartSpanFromContext(ctx, "repo.Lock")
+	defer span.Finish()
 
 	doLockTx := func(ctx context.Context, n uint64, tx *sqlx.Tx) ([]model.RequestEvent, error) {
 		psql := sq.StatementBuilder.PlaceholderFormat(sq.Dollar)
@@ -126,6 +130,9 @@ func (r *PGEventRepo) Lock(ctx context.Context, n uint64) ([]model.RequestEvent,
 // Unlock ...
 func (r *PGEventRepo) Unlock(ctx context.Context, eventIDs []uint64) error {
 
+	span, ctx := opentracing.StartSpanFromContext(ctx, "repo.Unlock")
+	defer span.Finish()
+
 	if len(eventIDs) == 0 {
 		return nil
 	}
@@ -156,6 +163,9 @@ func (r *PGEventRepo) Unlock(ctx context.Context, eventIDs []uint64) error {
 
 // Remove ...
 func (r *PGEventRepo) Remove(ctx context.Context, eventIDs []uint64) error {
+
+	span, ctx := opentracing.StartSpanFromContext(ctx, "repo.Remove")
+	defer span.Finish()
 
 	if len(eventIDs) == 0 {
 		return nil
