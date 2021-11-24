@@ -41,6 +41,10 @@ func TestStart(t *testing.T) {
 			Return(nil).
 			AnyTimes()
 
+		sender.EXPECT().
+			Close().
+			AnyTimes()
+
 		cfg := Config{
 			ChannelSize:    32,
 			ConsumerCount:  2,

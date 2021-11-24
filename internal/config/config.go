@@ -98,6 +98,16 @@ type Graylog struct {
 	Port  int    `yaml:"port"`
 }
 
+// Xlator config
+type Xlator struct {
+	ChanSize         uint64 `yaml:"chanSize"`
+	ConsumerCount    uint64 `yaml:"consumerCount"`
+	ConsumeTimeout   int    `yaml:"consumeTimeout"`
+	ConsumeBatchSize uint64 `yaml:"consumeBatchSize"`
+	ProducerCount    uint64 `yaml:"producerCount"`
+	WorkerCount      int    `yaml:"workerCount"`
+}
+
 // Config - contains all configuration parameters in config package.
 type Config struct {
 	Project  Project  `yaml:"project"`
@@ -109,6 +119,7 @@ type Config struct {
 	Kafka    Kafka    `yaml:"kafka"`
 	Status   Status   `yaml:"status"`
 	Graylog  Graylog  `yaml:"graylog"`
+	Xlator   Xlator   `yaml:"retranslator"`
 }
 
 // ReadConfigYML - read configurations from file and init instance Config.

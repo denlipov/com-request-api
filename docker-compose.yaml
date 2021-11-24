@@ -4,7 +4,7 @@ services:
   com-request-api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.api
     restart: unless-stopped
     logging:
       driver: 'gelf'
@@ -15,10 +15,8 @@ services:
       - ompnw
     depends_on:
       - postgres
-      - kafka
     links:
       - postgres
-      - kafka
     ports:
       - 8080:8080 # REST
       - 8082:8082 # gRPC
@@ -33,6 +31,27 @@ services:
       start_period: 20s
     volumes:
       - ./migrations/migrations:/root/migrations
+      - ./config.yml:/root/config.yml
+
+  xlator:
+    build:
+      context: .
+      dockerfile: Dockerfile.xlator
+    restart: unless-stopped
+    logging:
+      driver: 'gelf'
+      options:
+        gelf-address: 'udp://localhost:12201'
+        tag: xlator
+    networks:
+      - ompnw
+    depends_on:
+      - postgres
+      - kafka
+    links:
+      - postgres
+      - kafka
+    volumes:
       - ./config.yml:/root/config.yml
 
   postgres:
@@ -59,7 +78,6 @@ services:
     networks:
       - ompnw
     volumes:
-      # - pgdata:/var/lib/postgresql/data
       - ../postgres_data:/var/lib/postgresql/data:rw
       - ./scripts/init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
 
@@ -100,7 +118,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    command: sh -c "((sleep 15 && kafka-topics --create --zookeeper zookeeper:32181 --replication-factor 1 --partitions 1 --topic templates)&) && /etc/confluent/docker/run"
+      command: sh -c "((sleep 15 && kafka-topics --create --zookeeper zookeeper:32181 --replication-factor 1 --partitions 1 --topic com-request-api)&) && /etc/confluent/docker/run"
     networks:
       - ompnw
 

@@ -70,22 +70,28 @@ func main() {
 
 	sigs := make(chan os.Signal, 1)
 
+	sender, err := sender.NewEventSender(cfg.Kafka.Brokers, cfg.Kafka.Topic)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to init Kafka sender")
+	}
+	log.Debug().Msgf("Kafka sender initialized; brokers: %v; topic: %s", cfg.Kafka.Brokers, cfg.Kafka.Topic)
+
 	xlatorCfg := retranslator.Config{
-		ChannelSize:    128,
-		ConsumerCount:  10,
-		ConsumeTimeout: 1 * time.Second,
-		ConsumeSize:    10,
-		ProducerCount:  10,
-		WorkerCount:    4,
+		ChannelSize:    cfg.Xlator.ChanSize,
+		ConsumerCount:  cfg.Xlator.ConsumerCount,
+		ConsumeTimeout: time.Duration(cfg.Xlator.ConsumeTimeout) * time.Second,
+		ConsumeSize:    cfg.Xlator.ConsumeBatchSize,
+		ProducerCount:  cfg.Xlator.ProducerCount,
+		WorkerCount:    cfg.Xlator.WorkerCount,
 		Repo:           repo.NewEventRepo(db),
-		Sender:         sender.NewEventSender(),
+		Sender:         sender,
 	}
 
 	retranslator := retranslator.NewRetranslator(xlatorCfg)
 	retranslator.Start()
+	defer retranslator.Close()
 
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 
 	<-sigs
-	retranslator.Close()
 }

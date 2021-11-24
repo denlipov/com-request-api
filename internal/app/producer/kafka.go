@@ -117,5 +117,6 @@ func (p *producer) Start() {
 
 func (p *producer) Close() {
 	p.cancel()
+	p.sender.Close()
 	p.wg.Wait()
 }

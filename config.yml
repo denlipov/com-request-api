@@ -10,6 +10,14 @@ grpc:
   timeout: 15 # Seconds
   maxConnectionAge: 5 # Minutes
 
+retranslator:
+  chanSize: 128
+  consumerCount: 10
+  consumeTimeout: 1 # Seconds
+  consumeBatchSize: 10
+  producerCount: 10
+  workerCount: 4
+
 rest:
   host: 0.0.0.0
   port: 8080
@@ -33,7 +41,6 @@ status:
 
 database:
   host: postgres
-    #host: localhost
   port: 5432
   user: postgres
   password: postgres
