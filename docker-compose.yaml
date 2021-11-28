@@ -4,7 +4,7 @@ services:
   com-request-api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.api
     restart: unless-stopped
     logging:
       driver: 'gelf'
@@ -15,10 +15,8 @@ services:
       - ompnw
     depends_on:
       - postgres
-      - kafka
     links:
       - postgres
-      - kafka
     ports:
       - 8080:8080 # REST
       - 8082:8082 # gRPC
@@ -33,6 +31,31 @@ services:
       start_period: 20s
     volumes:
       - ./migrations/migrations:/root/migrations
+      - ./config.yml:/root/config.yml
+
+  xlator:
+    build:
+      context: .
+      dockerfile: Dockerfile.xlator
+    restart: unless-stopped
+    logging:
+      driver: 'gelf'
+      options:
+        gelf-address: 'udp://localhost:12201'
+        tag: xlator
+    networks:
+      - ompnw
+    depends_on:
+      - postgres
+      - kafka-1
+      - kafka-2
+      - kafka-3
+    links:
+      - postgres
+      - kafka-1
+      - kafka-2
+      - kafka-3
+    volumes:
       - ./config.yml:/root/config.yml
 
   postgres:
@@ -59,7 +82,6 @@ services:
     networks:
       - ompnw
     volumes:
-      # - pgdata:/var/lib/postgresql/data
       - ../postgres_data:/var/lib/postgresql/data:rw
       - ./scripts/init-database.sh:/docker-entrypoint-initdb.d/init-database.sh
 
@@ -81,26 +103,82 @@ services:
     networks:
       - ompnw
 
-  kafka:
+  kafka-1:
     image: confluentinc/cp-kafka
     restart: unless-stopped
     logging:
       driver: 'gelf'
       options:
         gelf-address: 'udp://localhost:12201'
-        tag: kafka
+        tag: kafka-1
     depends_on:
       - zookeeper
     ports:
       - 9094:9094
     environment:
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:32181"
-      KAFKA_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://kafka:9094
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://localhost:9094
+      KAFKA_LISTENERS: INTERNAL://kafka-1:9092,OUTSIDE://kafka-1:9094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:9092,OUTSIDE://localhost:9094
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    command: sh -c "((sleep 15 && kafka-topics --create --zookeeper zookeeper:32181 --replication-factor 1 --partitions 1 --topic templates)&) && /etc/confluent/docker/run"
+      KAFKA_BROKER_ID: 500
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../kafka_data/500:/kafka
+    networks:
+      - ompnw
+        #    command: sh -c "((sleep 15 && kafka-topics --create --zookeeper zookeeper:32181 --replication-factor 3 --partitions 5 --topic com-request-events)&) && /etc/confluent/docker/run"
+
+  kafka-2:
+    image: confluentinc/cp-kafka
+    restart: unless-stopped
+    logging:
+      driver: 'gelf'
+      options:
+        gelf-address: 'udp://localhost:12201'
+        tag: kafka-2
+    depends_on:
+      - zookeeper
+    ports:
+      - 9095:9094
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:32181"
+      KAFKA_LISTENERS: INTERNAL://kafka-2:9092,OUTSIDE://kafka-2:9094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-2:9092,OUTSIDE://localhost:9095
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_BROKER_ID: 501
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../kafka_data/501:/kafka
+    networks:
+      - ompnw
+
+  kafka-3:
+    image: confluentinc/cp-kafka
+    restart: unless-stopped
+    logging:
+      driver: 'gelf'
+      options:
+        gelf-address: 'udp://localhost:12201'
+        tag: kafka-3
+    depends_on:
+      - zookeeper
+    ports:
+      - 9096:9094
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:32181"
+      KAFKA_LISTENERS: INTERNAL://kafka-3:9092,OUTSIDE://kafka-3:9094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-3:9092,OUTSIDE://localhost:9096
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_BROKER_ID: 502
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../kafka_data/502:/kafka
     networks:
       - ompnw
 
@@ -108,15 +186,26 @@ services:
     image: obsidiandynamics/kafdrop
     restart: unless-stopped
     depends_on:
-      - kafka
+      - kafka-1
+      - kafka-2
+      - kafka-3
     ports:
       - 9001:9001
     environment:
       SERVER_PORT: 9001
-      KAFKA_BROKERCONNECT: "kafka:9092"
+      KAFKA_BROKERCONNECT: "kafka-1:9092,kafka-2:9092,kafka-3:9092"
       JVM_OPTS: "-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify"
     networks:
       - ompnw
+
+  kafka-ui-2:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 9002:8080
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-1:9092,kafka-2:9092,kafka-3:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:32181
 
   swagger-ui:
     image: swaggerapi/swagger-ui

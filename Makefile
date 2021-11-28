@@ -81,23 +81,27 @@ deps-go:
 	python -m pip install grpcio-tools grpclib protobuf
 
 .PHONY: build
-build: generate .build
+build: generate .build-api .build-xlator
 
-.PHONY: build-go
-build-go: generate-go .build
+.PHONY: build-api build-xlator
+build-api: generate-go .build-api
 
-.build:
+build-xlator: generate-go .build-xlator
+
+.build-api:
 	go mod download && CGO_ENABLED=0  go build \
 		-tags='no_mysql no_sqlite3' \
 		-ldflags=" \
 			-X 'github.com/$(SERVICE_PATH)/internal/config.version=$(VERSION)' \
 			-X 'github.com/$(SERVICE_PATH)/internal/config.commitHash=$(COMMIT_HASH)' \
 		" \
-		-o ./bin/grpc-server$(shell go env GOEXE) ./cmd/grpc-server/main.go; \
+		-o ./bin/grpc-server$(shell go env GOEXE) ./cmd/grpc-server/main.go
+
+.build-xlator:
 	go mod download && CGO_ENABLED=0  go build \
 		-tags='no_mysql no_sqlite3' \
 		-ldflags=" \
 			-X 'github.com/$(SERVICE_PATH)/internal/config.version=$(VERSION)' \
 			-X 'github.com/$(SERVICE_PATH)/internal/config.commitHash=$(COMMIT_HASH)' \
 		" \
-		-o ./bin/retranslator$(shell go env GOEXE) ./cmd/com-request-api/main.go
+		-o ./bin/retranslator$(shell go env GOEXE) ./cmd/retranslator/main.go

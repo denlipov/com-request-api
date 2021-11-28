@@ -7,4 +7,5 @@ import (
 // EventSender ...
 type EventSender interface {
 	Send(event *model.RequestEvent) error
+	Close()
 }

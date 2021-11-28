@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	sq "github.com/Masterminds/squirrel"
@@ -26,13 +27,36 @@ func NewEventRepo(db *sqlx.DB) *PGEventRepo {
 	}
 }
 
+type lockType int
+
+const (
+	_ lockType = iota
+
+	requestEventLock
+)
+
+func acquireTryLock(ctx context.Context, tx *sqlx.Tx, lockID lockType, eventStatus model.EventStatus) (bool, error) {
+	var isAcquired bool
+	sql := fmt.Sprintf("select pg_try_advisory_xact_lock(%d, %d)", lockID, eventStatus)
+	err := tx.GetContext(ctx, &isAcquired, sql)
+	return isAcquired, err
+}
+
 // Lock ...
 func (r *PGEventRepo) Lock(ctx context.Context, n uint64) ([]model.RequestEvent, error) {
 
-	span, ctx := opentracing.StartSpanFromContext(ctx, "repo.Lock")
-	defer span.Finish()
-
 	doLockTx := func(ctx context.Context, n uint64, tx *sqlx.Tx) ([]model.RequestEvent, error) {
+
+		lockAcquired, err := acquireTryLock(ctx, tx, requestEventLock, model.Idle)
+		if err != nil {
+			log.Error().Err(err).Msg("Unable to perform advisory lock on requests_events ")
+			return nil, err
+		}
+
+		if !lockAcquired {
+			return nil, nil
+		}
+
 		psql := sq.StatementBuilder.PlaceholderFormat(sq.Dollar)
 
 		querySelect, args, err := psql.
@@ -40,6 +64,7 @@ func (r *PGEventRepo) Lock(ctx context.Context, n uint64) ([]model.RequestEvent,
 			From("requests_events").
 			Where(sq.Eq{"status": model.Idle}).
 			OrderBy("updated").
+			//Suffix("FOR UPDATE SKIP LOCKED").
 			Limit(n).
 			ToSql()
 		if err != nil {
@@ -88,6 +113,9 @@ func (r *PGEventRepo) Lock(ctx context.Context, n uint64) ([]model.RequestEvent,
 		if len(evIDs) == 0 {
 			return nil, nil
 		}
+
+		span, ctx := opentracing.StartSpanFromContext(ctx, "repo.Lock")
+		defer span.Finish()
 
 		// Update
 		queryUpdate := psql.
