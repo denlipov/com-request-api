@@ -11,12 +11,12 @@ grpc:
   maxConnectionAge: 5 # Minutes
 
 retranslator:
-  chanSize: 128
-  consumerCount: 10
+  chanSize: 512
+  consumerCount: 100
   consumeTimeout: 1 # Seconds
   consumeBatchSize: 10
-  producerCount: 10
-  workerCount: 4
+  producerCount: 20
+  workerCount: 10
 
 rest:
   host: 0.0.0.0
@@ -50,7 +50,7 @@ database:
   driver: pgx
 
 kafka:
-  capacity: 512
+  capacity: 1024
   topic: "com-request-events"
   groupId: "com-request-api"
   brokers:

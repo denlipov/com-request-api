@@ -18,7 +18,10 @@ func (r *repo) DescribeRequest(ctx context.Context, requestID uint64) (*model.Re
 		PlaceholderFormat(sq.Dollar).
 		Select("id", "service", "\"user\"", "text").
 		From("requests").
-		Where(sq.Eq{"id": requestID}).ToSql()
+		Where(sq.And{
+			sq.Eq{"id": requestID},
+			sq.Eq{"removed": false},
+		}).ToSql()
 
 	if err != nil {
 		return nil, err
