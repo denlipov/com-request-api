@@ -1,25 +1,34 @@
 package database
 
 import (
+	"time"
+
 	"github.com/rs/zerolog/log"
 
 	"github.com/jmoiron/sqlx"
 )
 
 // NewPostgres returns DB
-func NewPostgres(dsn, driver string) (*sqlx.DB, error) {
-	db, err := sqlx.Open(driver, dsn)
-	if err != nil {
-		log.Error().Err(err).Msgf("failed to create database connection")
+func NewPostgres(dsn, driver string, retry int) (*sqlx.DB, error) {
+	var err error
+	var db *sqlx.DB
+	for retry > 0 {
+		db, err = sqlx.Open(driver, dsn)
+		if err != nil {
+			log.Error().Err(err).Msgf("failed to create database connection")
+			retry--
+			time.Sleep(3 * time.Second)
+			continue
+		}
 
-		return nil, err
+		if err = db.Ping(); err != nil {
+			log.Error().Err(err).Msgf("failed ping the database")
+			retry--
+			time.Sleep(3 * time.Second)
+			continue
+		}
+
+		return db, nil
 	}
-
-	if err = db.Ping(); err != nil {
-		log.Error().Err(err).Msgf("failed ping the database")
-
-		return nil, err
-	}
-
-	return db, nil
+	return db, err
 }

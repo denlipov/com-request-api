@@ -15,8 +15,8 @@ LABEL org.opencontainers.image.source https://${GITHUB_PATH}
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 
-COPY --from=builder /home/${GITHUB_PATH}/bin/retranslator .
-COPY --from=builder /home/${GITHUB_PATH}/config.yml .
+COPY --from=builder /home/${GITHUB_PATH}/bin/retranslator ./
+COPY --from=builder /home/${GITHUB_PATH}/config.yml ./
 
 RUN chown root:root retranslator
 

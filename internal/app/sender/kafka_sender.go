@@ -2,48 +2,36 @@ package sender
 
 import (
 	"context"
+	"encoding/binary"
 	"encoding/json"
-	"sync"
 
-	"github.com/Shopify/sarama"
 	"github.com/denlipov/com-request-api/internal/model"
 	"github.com/rs/zerolog/log"
+	"github.com/segmentio/kafka-go"
 )
 
 type kafkaEventSender struct {
-	producer sarama.SyncProducer
+	producer *kafka.Writer
 	topic    string
-	wg       *sync.WaitGroup
+	ctx      context.Context
 	cancel   context.CancelFunc
 }
 
 // NewEventSender ...
 func NewEventSender(brokers []string, topic string) (EventSender, error) {
-	config := sarama.NewConfig()
-	config.Producer.Partitioner = sarama.NewRandomPartitioner
-	config.Producer.RequiredAcks = sarama.WaitForAll
-	config.Producer.Return.Successes = true
 
-	producer, err := sarama.NewSyncProducer(brokers, config)
-	if err != nil {
-		return nil, err
+	w := &kafka.Writer{
+		Addr:         kafka.TCP(brokers...),
+		Topic:        topic,
+		RequiredAcks: kafka.RequireAll,
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
-	wg := new(sync.WaitGroup)
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		<-ctx.Done()
-		if err := producer.Close(); err != nil {
-			log.Error().Err(err).Msgf("Failed to close producer correctly")
-		}
-	}()
 
 	kafkaSender := &kafkaEventSender{
-		producer: producer,
+		producer: w,
 		topic:    topic,
-		wg:       wg,
+		ctx:      ctx,
 		cancel:   cancel,
 	}
 
@@ -58,22 +46,23 @@ func (s *kafkaEventSender) Send(ev *model.RequestEvent) error {
 		return err
 	}
 
-	msg := &sarama.ProducerMessage{
-		Topic:     s.topic,
-		Partition: -1,
-		Value:     sarama.ByteEncoder(msgBytes),
+	key := make([]byte, 8)
+	binary.LittleEndian.PutUint64(key, ev.ID)
+	msg := kafka.Message{
+		Key:   key,
+		Value: msgBytes,
 	}
 
-	partition, offset, err := s.producer.SendMessage(msg)
+	err = s.producer.WriteMessages(s.ctx, msg)
 	if err != nil {
 		log.Error().Err(err).Msgf("Failed to send event %d", ev.ID)
 		return err
 	}
-	log.Debug().Msgf("event %d sent OK; part: %d; offset: %d", ev.ID, partition, offset)
+	log.Debug().Msgf("event %d sent OK", ev.ID)
 	return nil
 }
 
 func (s *kafkaEventSender) Close() {
+	s.producer.Close()
 	s.cancel()
-	s.wg.Wait()
 }

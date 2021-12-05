@@ -12,6 +12,7 @@ import (
 	_ "github.com/jackc/pgx/v4/stdlib"
 	_ "github.com/lib/pq"
 
+	"github.com/denlipov/com-request-api/internal/cache"
 	"github.com/denlipov/com-request-api/internal/config"
 	"github.com/denlipov/com-request-api/internal/database"
 	"github.com/denlipov/com-request-api/internal/server"
@@ -66,7 +67,7 @@ func main() {
 		cfg.Database.SslMode,
 	)
 
-	db, err := database.NewPostgres(dsn, cfg.Database.Driver)
+	db, err := database.NewPostgres(dsn, cfg.Database.Driver, cfg.Database.Retry)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed init postgres")
 	}
@@ -88,7 +89,8 @@ func main() {
 	}
 	defer tracing.Close()
 
-	if err := server.NewGrpcServer(db, batchSize).Start(&cfg); err != nil {
+	cache := cache.NewRedisCache(cfg.Redis)
+	if err := server.NewGrpcServer(db, cache, batchSize).Start(&cfg); err != nil {
 		log.Error().Err(err).Msg("Failed creating gRPC server")
 
 		return

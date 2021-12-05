@@ -18,12 +18,10 @@ func (r *repo) ListRequest(ctx context.Context, limit, offset uint64) ([]model.R
 		PlaceholderFormat(sq.Dollar).
 		Select("id", "service", "\"user\"", "text").
 		From("requests").
-		Where(sq.And{
-			sq.Gt{"id": offset},
-			sq.Eq{"removed": false},
-		}).
+		Where(sq.Eq{"removed": false}).
 		OrderBy("id").
 		Limit(limit).
+		Offset(offset).
 		ToSql()
 
 	if err != nil {

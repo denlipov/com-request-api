@@ -4,6 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/denlipov/com-request-api/internal/cache"
+	"github.com/denlipov/com-request-api/internal/config"
 	"github.com/denlipov/com-request-api/internal/mocks"
 
 	pb "github.com/denlipov/com-request-api/pkg/com-request-api"
@@ -16,7 +18,10 @@ func TestRequestAPI_Handlers(t *testing.T) {
 	defer ctrl.Finish()
 
 	mockRepo := mocks.NewMockRepo(ctrl)
-	reqAPI := NewRequestAPI(mockRepo)
+	reqAPI := NewRequestAPI(mockRepo,
+		cache.NewRedisCache(config.Redis{
+			Addrs: []string{"localhost:6379"},
+		}))
 
 	t.Run("DescribeRequestV1Request", func(t *testing.T) {
 		invalidReqID := uint64(0)
