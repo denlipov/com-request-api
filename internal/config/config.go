@@ -34,6 +34,7 @@ type Database struct {
 	Name       string `yaml:"name"`
 	SslMode    string `yaml:"sslmode"`
 	Driver     string `yaml:"driver"`
+	Retry      int    `yaml:"retry"`
 }
 
 // Grpc - contains parameter address grpc.
@@ -108,6 +109,11 @@ type Xlator struct {
 	WorkerCount      int    `yaml:"workerCount"`
 }
 
+// Redis config
+type Redis struct {
+	Addrs []string `yaml:"addrs"`
+}
+
 // Config - contains all configuration parameters in config package.
 type Config struct {
 	Project  Project  `yaml:"project"`
@@ -120,6 +126,7 @@ type Config struct {
 	Status   Status   `yaml:"status"`
 	Graylog  Graylog  `yaml:"graylog"`
 	Xlator   Xlator   `yaml:"retranslator"`
+	Redis    Redis    `yaml:"redis"`
 }
 
 // ReadConfigYML - read configurations from file and init instance Config.

@@ -16,7 +16,7 @@ func TestRequestAPI_Handlers(t *testing.T) {
 	defer ctrl.Finish()
 
 	mockRepo := mocks.NewMockRepo(ctrl)
-	reqAPI := NewRequestAPI(mockRepo)
+	reqAPI := NewRequestAPI(mockRepo, nil)
 
 	t.Run("DescribeRequestV1Request", func(t *testing.T) {
 		invalidReqID := uint64(0)

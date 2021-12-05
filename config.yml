@@ -48,6 +48,11 @@ database:
   sslmode: disable
   migrations: migrations
   driver: pgx
+  retry: 10
+
+redis:
+  addrs:
+    - redis:6379
 
 kafka:
   capacity: 1024
